@@ -23,11 +23,12 @@ echo "Install brew (with curl): "
 echo "Important: '/usr/local/bin' must be before '/usr/bin' in path"
 (which brew > /dev/null) || (/usr/bin/ruby -e "$(/usr/bin/curl -fksSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)")
 
+brew_install git
+brew_install git-extras
 brew_install zsh
 brew_install node
-brew_install git
-brew_install python
 brew_install mongodb
+brew_install python
 brew_install xz
 brew_install p7zip
 brew_install unrar

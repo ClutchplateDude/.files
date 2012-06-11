@@ -266,7 +266,7 @@ fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
-alias p='sub ~/.files/osx.sh ~/.files/.links.sh ~/.files/.gitconfig ~/.files/.bash_profile'
+alias p='sub ~/.files/.osx.sh ~/.files/.links.sh ~/.files/.gitconfig ~/.files/.bash_profile'
 
 alias hlist='history $@'
 alias hclear='history -c'             # history clear
@@ -315,6 +315,8 @@ if is_location "home"; then
   alias f='cd ~/d/dev/face/$@'
   alias fu='cd ~/d/leaguefu/$@'
   alias fr='cd ~/framd/$@'
+  alias lf='cd ~/leaguefu/$@'
+  alias ggg='cd ~/gg/$@'
   alias sm='cd ~/smite/$@'
   alias smd='cd ~/smite-demo/$@'
   alias frd='cd ~/framd/docs/$@'
@@ -413,6 +415,12 @@ alias np='sub package.json'
 alias fs='runl foreman start -p 3000 $@'
 alias fl='run cat Procfile'
 alias fl='sub Procfile'
+
+##############################################################
+# Cake aliases
+##############################################################
+
+alias c='cake $@'
 
 ##############################################################
 # Heroku aliases
