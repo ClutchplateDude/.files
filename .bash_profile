@@ -318,7 +318,9 @@ if is_location "home"; then
   alias lf='cd ~/leaguefu/$@'
   alias ggg='cd ~/gg/$@'
   alias sm='cd ~/smite/$@'
+  alias smdb='cd ~/smite-db-mongoose/$@'
   alias smd='cd ~/smite-demo/$@'
+  alias smc='cd ~/smite-client/$@'
   alias frd='cd ~/framd/docs/$@'
   alias frp='cd ~/framd/prototype/$@'
   alias frs='cd ~/framd/source/$@'
@@ -370,7 +372,7 @@ alias gf='run git fetch'
 alias gp='run git pull'
 
 alias gc='run git commit'
-alias gcm='run git commit -m $@'
+alias gcm='run git commit -m "$@"'
 
 alias gr='run git remote $@'
 alias grv='run git remote -v $@'

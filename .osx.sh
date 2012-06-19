@@ -26,7 +26,7 @@ echo "Important: '/usr/local/bin' must be before '/usr/bin' in path"
 brew_install git
 brew_install git-extras
 brew_install zsh
-brew_install node
+brew_install nodejs
 brew_install mongodb
 brew_install python
 brew_install xz
