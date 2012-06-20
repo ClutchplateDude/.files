@@ -29,6 +29,7 @@ brew_install zsh
 brew_install nodejs
 brew_install mongodb
 brew_install python
+brew_install ack
 brew_install xz
 brew_install p7zip
 brew_install unrar
