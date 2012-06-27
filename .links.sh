@@ -15,5 +15,6 @@ function run { echo "[$@]"; $@; }
 if is_os "osx"; then
   run ln -s $HOME/.files/.gitconfig $HOME/.gitconfig
   run ln -s $HOME/.files/.bash_profile $HOME/.bash_profile
+  run ln -s $HOME/.files/.zshrc $HOME/.zshrc
   run ln -s $HOME/.files/.ackrc $HOME/.ackrc
 fi

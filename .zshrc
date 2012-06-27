@@ -1,13 +1,48 @@
+#──────────────────────────────────────────────────────
+# Oh my zsh
+#──────────────────────────────────────────────────────
 
-##############################################################
-# Version
-##############################################################
+# Path to your oh-my-zsh configuration.
+ZSH=$HOME/.files/.oh-my-zsh
 
-SCRIPT_VERSION="v1.4"
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+ZSH_THEME="../../.king"
+# ZSH_THEME="maran"
 
-echo
-echo ".bash_profile ($SCRIPT_VERSION)"
-echo
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Set to this to use case-sensitive completion
+# CASE_SENSITIVE="true"
+
+# Comment this out to disable weekly auto-update checks
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment following line if you want to disable colors in ls
+# DISABLE_LS_COLORS="true"
+
+# Uncomment following line if you want to disable autosetting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment following line if you want red dots to be displayed while waiting for completion
+# COMPLETION_WAITING_DOTS="true"
+
+plugins=(git brew)
+
+source $ZSH/oh-my-zsh.sh
+
+#──────────────────────────────────────────────────────
+# Plugins
+#──────────────────────────────────────────────────────
+
+#──────────────────────────────────────────────────────
+# Aliases
+#──────────────────────────────────────────────────────
+
 
 ##############################################################
 # OSX / WINDOWS Compatability
@@ -119,23 +154,23 @@ define_colors
 
 alias print_colors="echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}COLOR_WHITE\t${COLOR_WHITE_LIGHT}COLOR_WHITE_LIGHT\";echo -e \"${COLOR_BLUE}COLOR_BLUE\t${COLOR_BLUE_LIGHT}COLOR_BLUE_LIGHT\";echo -e \"${COLOR_GREEN}COLOR_GREEN\t${COLOR_GREEN_LIGHT}COLOR_GREEN_LIGHT\";echo -e \"${COLOR_CYAN}COLOR_CYAN\t${COLOR_CYAN_LIGHT}COLOR_LIGHT_CYAN\";echo -e \"${COLOR_RED}COLOR_RED\t${COLOR_RED_LIGHT}COLOR_RED_LIGHT\";echo -e \"${COLOR_MAGENTA}COLOR_MAGENTA\t${COLOR_MAGENTA_LIGHT}COLOR_MAGENTA_LIGHT\";echo -e \"${COLOR_YELLOW}COLOR_YELLOW\t${COLOR_YELLOW_LIGHT}COLOR_YELLOW_LIGHT\";echo -e \"${COLOR_BLACK}COLOR_BLACK\t${COLOR_BLACK_LIGHT}COLOR_BLACK_LIGHT\""
 
-# user@host|git|path
-PS1="${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\$ "
+# # user@host|git|path
+# PS1="${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\$ "
 
-# git|path
-alias psn="PS1='\[${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
+# # git|path
+# alias psn="PS1='\[${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
 
-# heroku|git|path
-alias psh="PS1='\[${PROMPT_COLOR_USER}\$(heroku_account)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
+# # heroku|git|path
+# alias psh="PS1='\[${PROMPT_COLOR_USER}\$(heroku_account)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
 
-# user@host|git|path
-alias ps1="PS1='\[${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
+# # user@host|git|path
+# alias ps1="PS1='\[${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
 
-# time|user@host|git|path
-alias ps2="PS1='\[${PROMPT_COLOR_TIME}\t${PROMPT_COLOR_NONE}|${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
+# # time|user@host|git|path
+# alias ps2="PS1='\[${PROMPT_COLOR_TIME}\t${PROMPT_COLOR_NONE}|${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
 
-# history|time|user@host|git|path
-alias ps3="PS1='\[${PROMPT_COLOR_HISTORY}\!${PROMPT_COLOR_NONE}|${PROMPT_COLOR_TIME}\t${PROMPT_COLOR_NONE}|${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
+# # history|time|user@host|git|path
+# alias ps3="PS1='\[${PROMPT_COLOR_HISTORY}\!${PROMPT_COLOR_NONE}|${PROMPT_COLOR_TIME}\t${PROMPT_COLOR_NONE}|${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
 
 ##############################################################
 # Terminal aliases
@@ -474,4 +509,3 @@ alias pg='run ps axw | grep -i'
 alias plg='run port list | grep -i'
 
 echo
-

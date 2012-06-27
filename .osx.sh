@@ -34,6 +34,7 @@ brew_install xz
 brew_install p7zip
 brew_install unrar
 brew_install tree
+brew_install nmap
 
 echo "Install npm (with curl)"
 (which npm > /dev/null) || (curl http://npmjs.org/install.sh | sh)
