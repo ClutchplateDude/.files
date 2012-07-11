@@ -152,7 +152,7 @@ function define_colors {
 }
 define_colors
 
-alias print_colors="echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}COLOR_WHITE\t${COLOR_WHITE_LIGHT}COLOR_WHITE_LIGHT\";echo -e \"${COLOR_BLUE}COLOR_BLUE\t${COLOR_BLUE_LIGHT}COLOR_BLUE_LIGHT\";echo -e \"${COLOR_GREEN}COLOR_GREEN\t${COLOR_GREEN_LIGHT}COLOR_GREEN_LIGHT\";echo -e \"${COLOR_CYAN}COLOR_CYAN\t${COLOR_CYAN_LIGHT}COLOR_LIGHT_CYAN\";echo -e \"${COLOR_RED}COLOR_RED\t${COLOR_RED_LIGHT}COLOR_RED_LIGHT\";echo -e \"${COLOR_MAGENTA}COLOR_MAGENTA\t${COLOR_MAGENTA_LIGHT}COLOR_MAGENTA_LIGHT\";echo -e \"${COLOR_YELLOW}COLOR_YELLOW\t${COLOR_YELLOW_LIGHT}COLOR_YELLOW_LIGHT\";echo -e \"${COLOR_BLACK}COLOR_BLACK\t${COLOR_BLACK_LIGHT}COLOR_BLACK_LIGHT\""
+alias print_colors="echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}COLOR_WHITE\t${COLOR_WHITE_LIGHT}COLOR_WHITE_LIGHT\";echo -e \"${COLOR_BLUE}COLOR_BLUE\t${COLOR_BLUE_LIGHT}COLOR_BLUE_LIGHT\";echo -e \"${COLOR_GREEN}COLOR_GREEN\t${COLOR_GREEN_LIGHT}COLOR_GREEN_LIGHT\";echo -e \"${COLOR_CYAN}COLOR_CYAN\t${COLOR_CYAN_LIGHT}COLOR_LIGHT_CYAN\";echo -e \"${COLOR_RED}COLOR_RED\t${COLOR_RED_LIGHT}COLOR_RED_LIGHT\";echo -e \"${COLOR_MAGENTA}COLOR_MAGENTA\t${COLOR_MAGENTA_LIGHT}COLOR_MAGENTA_LIGHT\";echo -e \"${COLOR_YELLOW}COLOR_YELLOW\t${COLOR_YELLOW_LIGHT}COLOR_YELLOW_LIGHT\";echo -e \"${COLOR_BLACK}COLOR_BLACK\t${COLOR_BLACK_LIGHT}COLOR_BLACK_LIGHT\""11
 
 # # user@host|git|path
 # PS1="${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\$ "
@@ -204,6 +204,18 @@ alias print_colors="echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}
 # darkbasecyan     n/a                                          0  28  29                              ---            bg
 # darkbasepurple   n/a                                         20  12  29                              ---            bg
 
+# ------ Light/DARK ---------------------------------------------
+# NONE              Text                          n/a
+# WHITE             OppositeBGHighlight           OppositeBG
+# CYAN              Cyan                          Emphasis
+# MAGENTA           Magenta                       Violet
+# BLUE              blue                          Text
+# YELLOW            Yellow                        OppositeText
+# GREEN             Green                         Comment
+# RED               Red                           Orange
+# BLACK             BGHighlight                   BG
+# ---------------------------------------------------------------
+
 if is_os "osx"; then
 
   function terminal_theme {
@@ -211,8 +223,8 @@ if is_os "osx"; then
     osascript -e "tell application \"Terminal\" to set current settings of window 1 to settings set \"$TERMINAL_THEME\""
   }
 
-  function light { terminal_theme "SolarizedLightEvan"; }
-  function dark { terminal_theme "SolarizedDarkEvan"; }
+  function light { terminal_theme "EvanSolarizedLight"; }
+  function dark { terminal_theme "EvanSolarizedDark"; }
   function blue { dark; }
   function white { light; }
   function red { dark; osascript -e "tell application \"Terminal\" to set background color of front window to {6885, 0, 765}"; }
@@ -274,6 +286,9 @@ else
 
 fi
 
+function chess { echo "\n   ♔  ♕  ♖  ♗  ♘  ♙    ♚  ♛  ♜  ♝  ♞  ♟\n" }
+alias king='sudo zsh'
+
 ##############################################################
 # One-time Aliases
 ##############################################################
@@ -296,27 +311,46 @@ if is_os "osx"; then
 fi
 
 ##############################################################
-# Bash Aliases
+# Config Aliases
 ##############################################################
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
-alias p='sub ~/.files/.osx.sh ~/.files/.links.sh ~/.files/.gitconfig ~/.files/.bash_profile'
+alias p='sub ~/.files/.osx ~/.files/.links ~/.files/.gitconfig ~/.files/.zshrc'
 
-alias hlist='history $@'
-alias hclear='history -c'             # history clear
-alias hgrep='history | grep -i $@'   # history grep
+alias config_links='~/.files/.links'
+alias config_osx='~/.files/.osx'
+
+##############################################################
+# ls colors
+##############################################################
+export CLICOLOR=1
+export LSCOLORS=exfxcxdxbxegedabagacad
+
+export LS_OPTIONS='--color=auto'
+eval `gdircolors ~/.dircolors`
+
+[ "$TERM" = "xterm" ] && TERM="xterm-256color"
+
+# TODO: Detect if gls exists before binding these
+alias l='run gls --color -lh $@'
+alias la='run gls --color -lhAF $@'
+alias ls='run gls --color -F $@'
+
+alias ls0='ls -Gp'
+alias ls1='ls -GF'
 
 ##############################################################
 # Navigation Aliases
 ##############################################################
 
+alias hlist='history $@'
+alias hclear='history -c'             # history clear
+alias hgrep='history | grep -i $@'   # history grep
+
 alias asdf='clear;'
 alias cl='clear; ls -lhG $@'
 alias cla='clear; ls -lhAG $@'
-alias l='run ls -lhG $@'
-alias la='run ls -lhAG $@'
-alias ls="run ls -G $@"
 
 alias s='cd ..'
 
@@ -356,10 +390,12 @@ if is_location "home"; then
   alias sm='cd ~/smite/$@'
   alias smdb='cd ~/smite-db-mongoose/$@'
   alias smd='cd ~/smite/demo/$@'
+  alias smt='cd ~/smite/test/$@'
   alias smc='cd ~/smite-client/$@'
   alias frd='cd ~/framd/docs/$@'
+  alias frt='cd ~/framd/test/$@'
   alias frp='cd ~/framd/prototype/$@'
-  alias frs='cd ~/framd/source/$@'
+  alias frs='cd ~/framd/src/$@'
 
 ##############################
 # Work Aliases
@@ -447,7 +483,7 @@ alias git_show_file_stats_between_branches='git '
 ##############################################################
 
 alias n='runl node $@'
-alias no='runp nodemon src/app.js'
+alias no='runp node-dev src/app.js'
 alias np='sub package.json'
 
 alias fs='runl foreman start -p 3000 $@'
@@ -465,6 +501,7 @@ alias c='cake $@'
 ##############################################################
 
 alias mo='rung cake db'
+alias mo2='runy mongo localhost:4000/database'
 
 ##############################################################
 # Heroku aliases
