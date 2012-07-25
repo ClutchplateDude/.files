@@ -21,6 +21,8 @@
 	staged = diff --cached
 	cp = cherry-pick
 
+  rma = !git ls-files --deleted -z | xargs -0 git rm
+
 	unstage = reset HEAD
 	uncommit = reset --soft HEAD^
 	diffs = diff --staged

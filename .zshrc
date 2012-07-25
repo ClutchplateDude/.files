@@ -219,12 +219,12 @@ alias print_colors="echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}
 if is_os "osx"; then
 
   function terminal_theme {
-    TERMINAL_THEME=$1; if [ -z "$TERMINAL_THEME" ]; then TERMINAL_THEME="SolarizedDarkEvan"; fi
+    TERMINAL_THEME=$1; if [ -z "$TERMINAL_THEME" ]; then TERMINAL_THEME="SolarizedDark"; fi
     osascript -e "tell application \"Terminal\" to set current settings of window 1 to settings set \"$TERMINAL_THEME\""
   }
 
-  function light { terminal_theme "EvanSolarizedLight"; }
-  function dark { terminal_theme "EvanSolarizedDark"; }
+  function light { terminal_theme "SolarizedLight"; }
+  function dark { terminal_theme "SolarizedDark"; }
   function blue { dark; }
   function white { light; }
   function red { dark; osascript -e "tell application \"Terminal\" to set background color of front window to {6885, 0, 765}"; }
@@ -387,6 +387,7 @@ if is_location "home"; then
   alias lf='cd ~/leaguefu/$@'
   alias lfr='cd ~/leaguefu/rip/$@'
   alias ggg='cd ~/gg/$@'
+  # alias smite='node ~/smite/src/app.js $@'
   alias sm='cd ~/smite/$@'
   alias smdb='cd ~/smite-db-mongoose/$@'
   alias smd='cd ~/smite/demo/$@'
@@ -500,8 +501,17 @@ alias c='cake $@'
 # Mongo aliases
 ##############################################################
 
-alias mo='rung cake db'
-alias mo2='runy mongo localhost:4000/database'
+alias mo='runl mocha $@'
+alias mow='runl mocha --watch $@'
+alias t='mocha'
+alias tw='mocha --reporter min --watch'
+
+##############################################################
+# Mongo aliases
+##############################################################
+
+alias db='rung cake db'
+alias db2='runy mongo localhost:4000/database'
 
 ##############################################################
 # Heroku aliases
