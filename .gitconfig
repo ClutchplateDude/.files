@@ -14,7 +14,7 @@
 
 	d = diff
 	co = checkout
-    br = branch
+  br = branch
 	st = status
 	ci = commit
 	cia = commit --amend
@@ -26,6 +26,9 @@
   this = !git init && git add . && git commit -m \"initial commit\"
 
   amend = !git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
+
+  lower = reset HEAD
+  raise = add -A
 
   alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\t=> \\2/' | sort
 

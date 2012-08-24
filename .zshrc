@@ -5,16 +5,16 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.files/.oh-my-zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="../../.king"
-# ZSH_THEME="maran"
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+#──────────────────────────────────────────────────────
+# Theme
+#──────────────────────────────────────────────────────
+
+ZSH_THEME="../../.king"
+
+#──────────────────────────────────────────────────────
+# Settings
+#──────────────────────────────────────────────────────
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -31,23 +31,17 @@ ZSH_THEME="../../.king"
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 # COMPLETION_WAITING_DOTS="true"
 
-plugins=(git brew)
-
-source $ZSH/oh-my-zsh.sh
-
 #──────────────────────────────────────────────────────
 # Plugins
 #──────────────────────────────────────────────────────
 
+plugins=(brew)
+
+source $ZSH/oh-my-zsh.sh
+
 #──────────────────────────────────────────────────────
-# Aliases
+# OS Detection
 #──────────────────────────────────────────────────────
-
-
-##############################################################
-# OSX / WINDOWS Compatability
-##############################################################
-
 # Supported arguments: "windows", "osx"
 function is_os {
   if [ $1 = "windows" ] && [ "$OS" = "Windows_NT" ]; then
@@ -71,9 +65,9 @@ if [ ! -f ~/.location ]; then
   echo "home" > ~/.location
 fi
 
-##############################################################
-# Path and Location
-##############################################################
+#──────────────────────────────────────────────────────
+# Path and Location Detection
+#──────────────────────────────────────────────────────
 
 # Print operating system
 echo -n "  OS:       "
@@ -110,9 +104,9 @@ fi
 
 echo "  User:     $USER"
 
-##############################################################
+#──────────────────────────────────────────────────────
 # Prompt
-##############################################################
+#──────────────────────────────────────────────────────
 
 function git_branch {
    (echo -n "*"; git branch 2> /dev/null | sed -e '/^[^*]/d') | sed -e 's/\*\* \(.*\)/*\1/'
@@ -172,9 +166,9 @@ alias print_colors="echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}
 # # history|time|user@host|git|path
 # alias ps3="PS1='\[${PROMPT_COLOR_HISTORY}\!${PROMPT_COLOR_NONE}|${PROMPT_COLOR_TIME}\t${PROMPT_COLOR_NONE}|${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
 
-##############################################################
+#──────────────────────────────────────────────────────
 # Terminal aliases
-##############################################################
+#──────────────────────────────────────────────────────
 
 # SOLARIZED        TERMCOL     XTERM/HEX     HEX       16/8   RGB           HSB           L*A*B        LIGHT          DARK
 # --------------   ---------   -----------   -------   ----   -----------   -----------   ----------   ------------   ------------
@@ -215,6 +209,11 @@ alias print_colors="echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}
 # RED               Red                           Orange
 # BLACK             BGHighlight                   BG
 # ---------------------------------------------------------------
+
+
+#──────────────────────────────────────────────────────
+# Aliases
+#──────────────────────────────────────────────────────
 
 if is_os "osx"; then
 
@@ -289,9 +288,9 @@ fi
 function chess { echo "\n   ♔  ♕  ♖  ♗  ♘  ♙    ♚  ♛  ♜  ♝  ♞  ♟\n" }
 alias king='sudo zsh'
 
-##############################################################
+#──────────────────────────────────────────────────────
 # One-time Aliases
-##############################################################
+#──────────────────────────────────────────────────────
 
 if is_os "osx"; then
   function onetime_setup {
@@ -310,9 +309,9 @@ if is_os "osx"; then
   }
 fi
 
-##############################################################
+#──────────────────────────────────────────────────────
 # Config Aliases
-##############################################################
+#──────────────────────────────────────────────────────
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
@@ -321,9 +320,9 @@ alias p='sub ~/.files/.osx ~/.files/.links ~/.files/.gitconfig ~/.files/.zshrc'
 alias config_links='~/.files/.links'
 alias config_osx='~/.files/.osx'
 
-##############################################################
+#──────────────────────────────────────────────────────
 # ls colors
-##############################################################
+#──────────────────────────────────────────────────────
 export CLICOLOR=1
 export LSCOLORS=exfxcxdxbxegedabagacad
 
@@ -340,9 +339,9 @@ alias ls='run gls --color -F $@'
 alias ls0='ls -Gp'
 alias ls1='ls -GF'
 
-##############################################################
-# Navigation Aliases
-##############################################################
+#──────────────────────────────────────────────────────
+# Navigation Alaises
+#──────────────────────────────────────────────────────
 
 alias hlist='history $@'
 alias hclear='history -c'             # history clear
@@ -357,25 +356,25 @@ alias s='cd ..'
 alias diff='run git difftool --extcmd=/usr/bin/opendiff $@'
 alias diffs='run git difftool --staged --extcmd=/usr/bin/opendiff $@'
 
-##############################################################
+#──────────────────────────────────────────────────────
 # Location aliases
 #
 # Edit ~/.location to configure
-##############################################################
+#──────────────────────────────────────────────────────
 
 echo -n "  Aliases: "
 
-##############################
+#──────────────────────────────────────────────────────
 # Shared Aliases
-##############################
+#──────────────────────────────────────────────────────
 
 alias d='cd ~/d/ $@'
 alias e='cd ~/e/ $@'
 alias g='cd ~/g/ $@'
 
-##############################
+#──────────────────────────────────────────────────────
 # Home Aliases
-##############################
+#──────────────────────────────────────────────────────
 
 if is_location "home"; then
   echo -n " @Home"
@@ -389,6 +388,7 @@ if is_location "home"; then
   alias ggg='cd ~/gg/$@'
   # alias smite='node ~/smite/src/app.js $@'
   alias sm='cd ~/smite/$@'
+  alias oj='cd ~/oj/$@'
   alias smdb='cd ~/smite-db-mongoose/$@'
   alias smd='cd ~/smite/demo/$@'
   alias smt='cd ~/smite/test/$@'
@@ -398,9 +398,9 @@ if is_location "home"; then
   alias frp='cd ~/framd/prototype/$@'
   alias frs='cd ~/framd/src/$@'
 
-##############################
+#──────────────────────────────────────────────────────
 # Work Aliases
-##############################
+#──────────────────────────────────────────────────────
 
 elif is_location "work"; then
   echo -n " @Work"
@@ -413,12 +413,13 @@ function ssh {
   runr /usr/bin/ssh "$@"
 }
 
-##############################################################
+#──────────────────────────────────────────────────────
 # Git aliases
-##############################################################
+#──────────────────────────────────────────────────────
 
 alias m='git checkout master'     # Change to master branch\
 alias b='git checkout -'          # Toggle to last branch
+
 alias go='git checkout $@'
 
 # Git core information
@@ -464,6 +465,85 @@ alias gromf='gf && grom'
 alias gros='run git rebase origin/staging'
 alias gris='run git rebase -i origin/staging'
 
+
+
+# # Aliases
+# alias g='git'
+# compdef g=git
+# alias gst='git status'
+# compdef _git gst=git-status
+# alias gl='git pull'
+# compdef _git gl=git-pull
+# alias gup='git fetch && git rebase'
+# compdef _git gup=git-fetch
+# alias gp='git push'
+# compdef _git gp=git-push
+# gdv() { git diff -w "$@" | view - }
+# compdef _git gdv=git-diff
+# alias gc='git commit -v'
+# compdef _git gc=git-commit
+# alias gca='git commit -v -a'
+# compdef _git gca=git-commit
+# alias gco='git checkout'
+# compdef _git gco=git-checkout
+# alias gcm='git checkout master'
+# alias gb='git branch'
+# compdef _git gb=git-branch
+# alias gba='git branch -a'
+# compdef _git gba=git-branch
+# alias gcount='git shortlog -sn'
+# compdef gcount=git
+# alias gcp='git cherry-pick'
+# compdef _git gcp=git-cherry-pick
+# alias glg='git log --stat --max-count=5'
+# compdef _git glg=git-log
+# alias glgg='git log --graph --max-count=5'
+# compdef _git glgg=git-log
+# alias gss='git status -s'
+# compdef _git gss=git-status
+# alias ga='git add'
+# compdef _git ga=git-add
+# alias gm='git merge'
+# compdef _git gm=git-merge
+# alias grh='git reset HEAD'
+# alias grhh='git reset HEAD --hard'
+
+# # Git and svn mix
+# alias git-svn-dcommit-push='git svn dcommit && git push github master:svntrunk'
+# compdef git-svn-dcommit-push=git
+
+# alias gsr='git svn rebase'
+# alias gsd='git svn dcommit'
+# #
+# # Will return the current branch name
+# # Usage example: git pull origin $(current_branch)
+# #
+# function current_branch() {
+#   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+#   echo ${ref#refs/heads/}
+# }
+
+# function current_repository() {
+
+#   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+#   echo $(git remote -v | cut -d':' -f 2)
+# }
+
+# # these aliases take advantage of the previous function
+# alias ggpull='git pull origin $(current_branch)'
+# compdef ggpull=git
+# alias ggpush='git push origin $(current_branch)'
+# compdef ggpush=git
+# alias ggpnp='git pull origin $(current_branch) && git push origin $(current_branch)'
+# compdef ggpnp=git
+
+
+
+
+
+
+
+
 alias gack='run git add . && git commit -m "f"'
 alias grimace='run git add . && git commit -m "f" && git rebase -i master'
 
@@ -479,11 +559,11 @@ alias git_list_remote_branches='run git br -r'
 alias git_delete_remote_branch='echo "git push <remotename> --delete <branchname>"'
 alias git_show_file_stats_between_branches='git '
 # Visual diffs in OSX using built in opendiff
-##############################################################
-# Node aliases
-##############################################################
 
-alias n='runl node $@'
+#──────────────────────────────────────────────────────
+# Node aliases
+#──────────────────────────────────────────────────────
+
 alias no='runp node-dev src/app.js'
 alias np='sub package.json'
 
@@ -491,31 +571,31 @@ alias fs='runl foreman start -p 3000 $@'
 alias fl='run cat Procfile'
 alias fl='sub Procfile'
 
-##############################################################
+#──────────────────────────────────────────────────────
 # Cake aliases
-##############################################################
+#──────────────────────────────────────────────────────
 
 alias c='cake $@'
 
-##############################################################
+#──────────────────────────────────────────────────────
 # Mongo aliases
-##############################################################
+#──────────────────────────────────────────────────────
 
 alias mo='runl mocha $@'
 alias mow='runl mocha --watch $@'
 alias t='mocha'
 alias tw='mocha --reporter min --watch'
 
-##############################################################
+#──────────────────────────────────────────────────────
 # Mongo aliases
-##############################################################
+#──────────────────────────────────────────────────────
 
 alias db='rung cake db'
 alias db2='runy mongo localhost:4000/database'
 
-##############################################################
+#──────────────────────────────────────────────────────
 # Heroku aliases
-##############################################################
+#──────────────────────────────────────────────────────
 
 alias h='run heroku $@'
 
@@ -537,9 +617,9 @@ function hln {
 alias ha='run heroku accounts'
 alias has='run heroku accounts:set $@'
 
-##############################################################
+#──────────────────────────────────────────────────────
 # Rails aliases
-##############################################################
+#──────────────────────────────────────────────────────
 
 alias rtest='growl rake'
 alias rmig='growl runl rake db:migrate'
@@ -548,9 +628,9 @@ alias roll='growl run rake db:rollback'
 alias rsd='runl rails server --debugger'
 alias rs='run rails server'
 
-##############################################################
+#──────────────────────────────────────────────────────
 # Unsorted
-##############################################################
+#──────────────────────────────────────────────────────
 
 alias pg='run ps axw | grep -i'
 alias plg='run port list | grep -i'
