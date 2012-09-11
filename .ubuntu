@@ -43,7 +43,7 @@ run "${HOME}/.files/.links"
 echo 'Install ansible (make install)'
 run git clone git://github.com/ansible/ansible.git "${HOME}/bin/ansible"
 run sudo make -C "${HOME}/bin/ansible" install
-run rm -rf "${HOME}/bin/ansible"
+run sudo rm -rf "${HOME}/bin/ansible"
 
 # Create key which will allow us to ssh 127.0.0.1
 echo 'Create ssh key to ssh into ourselves'
@@ -69,6 +69,7 @@ apt_install make
 apt_install ack
 apt_install git
 apt_install tree
+apt_install emacs23-nox
 apt_install p7zip
 
 apt_install nodejs

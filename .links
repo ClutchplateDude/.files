@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Supported arguments: "windows", "osx", "linux"
 function is_os {

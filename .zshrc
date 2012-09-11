@@ -346,13 +346,18 @@ eval `gdircolors ~/.dircolors`
 
 [ "$TERM" = "xterm" ] && TERM="xterm-256color"
 
-# TODO: Detect if gls exists before binding these
-alias l='run gls --color -lh $@'
-alias la='run gls --color -lhAF $@'
-alias ls='run gls --color -F $@'
-
-alias ls0='ls -Gp'
-alias ls1='ls -GF'
+if is_os 'osx'; then
+  # TODO: Detect if gls exists before binding these
+  alias l='run gls --color -lh $@'
+  alias la='run gls --color -lhAF $@'
+  alias ls='run gls --color -F $@'
+  alias ls0='ls -Gp'
+  alias ls1='ls -GF'
+elif is_os 'linux'; then
+  alias l='run ls --color -lh $@'
+  alias la='run ls --color -lhAF $@'
+  alias ls='run ls --color -F $@'
+fi
 
 #──────────────────────────────────────────────────────
 # Navigation Alaises
