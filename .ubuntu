@@ -78,10 +78,8 @@ echo 'Install zshrc (git clone)'
 run git clone git://github.com/evanmoran/.files.git "${HOME}/.files"
 run "${HOME}/.files/.links"
 
-run pushd
-run cd "${HOME}/.files"
-run git sup
-run popd
+# Update submodules
+(cd "${HOME}/.files"; git sup)
 
 ##############################################################
 # Install zsh
