@@ -564,7 +564,6 @@ if is_location "home"; then
 
 elif is_location "work"; then
   echo -n " @Work"
-fi
 
 #──────────────────────────────────────────────────────
 # Server Aliases
