@@ -78,6 +78,7 @@ fi
 #──────────────────────────────────────────────────────
 
 # Print operating system
+echo # Newline
 echo -n "  OS:       "
 
 # Bind for Windows
@@ -331,7 +332,7 @@ fi
 
 alias p='sub ~/.files/.osx sub ~/.files/.ubuntu ~/.files/.links ~/.files/.gitconfig ~/.files/.zshrc'
 
-alias reload="source ${HOME}/.files/.zshrc"
+alias reload="(cd ${HOME}/.files; git pull); source ${HOME}/.files/.zshrc"
 
 #──────────────────────────────────────────────────────
 # ls colors
