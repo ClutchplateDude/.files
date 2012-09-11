@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+
+# Install by url
+# curl 'https://raw.github.com/evanmoran/.files/master/.ubuntu' | bash
 
 # Run auto echos
 function run { echo -e "[$@]"; $@; }
@@ -6,7 +9,7 @@ function run { echo -e "[$@]"; $@; }
 function apt_install {
   echo -n "Install $1 (with apt-get): "
 
-  (run dpkg --get-selections | grep "\$$1 " > /dev/null) && (echo "Already Installed") || (run sudo apt-get install $1)
+  (run dpkg --get-selections | grep "^$1\s" > /dev/null) && (echo "Already Installed") || (run sudo apt-get install $1)
 }
 
 ##############################################################
