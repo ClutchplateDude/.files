@@ -15,7 +15,7 @@ function apt_install {
 function npm_install {
   echo -n "Install $1 (with npm): "
   (run npm list -g | grep $1 > /dev/null) && echo "Already Installed"
-  (run npm list -g | grep $1 > /dev/null) || (run npm install -g $1)
+  (run npm list -g | grep $1 > /dev/null) || (run sudo npm install -g $1)
 }
 
 function apt_search_starts_with {
@@ -40,7 +40,7 @@ apt_install tree
 apt_install p7zip
 
 echo "Install npm (with curl)"
-(which npm > /dev/null) || (curl http://npmjs.org/install.sh | sh)
+(which npm > /dev/null) || (curl https://npmjs.org/install.sh | sudo sh)
 
 # # Node.js framework
 npm_install "coffee-script"         # Javascript templating
