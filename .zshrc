@@ -335,7 +335,7 @@ fi
 
 alias p='sub ~/.files/.osx sub ~/.files/.ubuntu ~/.files/.links ~/.files/.gitconfig ~/.files/.zshrc'
 
-alias reload="pushd ${HOME}/.files; git pull; source ${HOME}/.files/.zshrc; popd"
+alias reload="pushd ${HOME}/.files > /dev/null; git pull; source ${HOME}/.files/.zshrc; popd > /dev/null"
 
 #──────────────────────────────────────────────────────
 # ls colors
