@@ -23,11 +23,8 @@ function apt_search_starts_with {
 }
 
 ##############################################################
-
 # Install apps
 ##############################################################
-
-# sudo apt-get install zsh
 
 apt_install zsh
 apt_install git
@@ -42,7 +39,10 @@ apt_install p7zip
 echo "Install npm (with curl)"
 (which npm > /dev/null) || (curl https://npmjs.org/install.sh | sudo sh)
 
-# # Node.js framework
+##############################################################
+# Install npm apps
+##############################################################
+
 npm_install "coffee-script"         # Javascript templating
 npm_install "node-dev"              # Auto node restarting
 npm_install "mocha"                 # Node test framework
