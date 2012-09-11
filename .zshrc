@@ -331,6 +331,8 @@ fi
 
 alias p='sub ~/.files/.osx sub ~/.files/.ubuntu ~/.files/.links ~/.files/.gitconfig ~/.files/.zshrc'
 
+alias reload="source ${HOME}/.files/.zshrc"
+
 #──────────────────────────────────────────────────────
 # ls colors
 #──────────────────────────────────────────────────────
