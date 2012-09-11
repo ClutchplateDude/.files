@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# Run auto echos
+function run { echo -e "[$@]"; $@; }
+
+function apt_install {
+  echo -n "Install $1 (with apt-get): "
+
+  (run dpkg --get-selections | grep "\$$1 " > /dev/null) && (echo "Already Installed") || (run sudo apt-get install $1)
+}
+
+##############################################################
+# Install apps
+##############################################################
+
+# sudo apt-get install zsh
+
+apt_install git
+
+# apt_install git-extras
+# apt_install zsh
+# apt_install nodejs
+# apt_install mongodb
+# apt_install python
+# apt_install ack
+# apt_install xz
+# apt_install p7zip
+# apt_install unrar
+# apt_install tree
+# apt_install nmap
+# apt_install coreutils  # gnu version of utility (used for dircolors)
+
+# echo "Install npm (with curl)"
+# (which npm > /dev/null) || (curl http://npmjs.org/install.sh | sh)
+
+# # Pigments
+# sudo easy_install pygments
+
+# # Node.js framework
+# npm_install "coffee-script"         # Javascript templating
+# npm_install "node-dev"              # Auto node restarting
+# npm_install "mocha"                 # Node test framework
+# npm_install "pygments"              # Syntax highlighting used by docco
+# npm_install "docco"                 # Documentation generator
+# npm_install "groc"                  # Documentation generator
+
+# echo "Install plugin to support multiple heroku accounts"
+# echo "Note: Add accounts to heroku with: heroku accounts:add <name>"
+# heroku plugins:install git://github.com/ddollar/heroku-accounts.git
+
