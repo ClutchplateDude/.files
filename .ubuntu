@@ -85,7 +85,7 @@ run "${HOME}/.files/.links"
 # Install zsh
 ##############################################################
 
-echo 'Installing zsh ('
+echo 'Installing zsh'
 run sudo chsh -s `which zsh` `whoami`
 
 ##############################################################

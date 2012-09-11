@@ -113,12 +113,16 @@ elif is_os "osx"; then
 elif is_os "linux"; then
   echo "Linux"
 
+
   # Path for node
   export NODE_PATH=/usr/local/lib/node_modules
 
   # Path extension
   export PATH="${HOME}/bin:$PATH"
 
+  if is_location "server"; then
+    export ANSIBLE_HOSTS="${HOME}/.ansible_hosts"
+  fi
 fi
 
 echo "  User:     $USER"
