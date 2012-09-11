@@ -18,23 +18,74 @@ function npm_install {
   (run npm list -g | grep $1 > /dev/null) || (run sudo npm install -g $1)
 }
 
+function link {
+  echo -n "Install $1 (with npm): "
+  (run npm list -g | grep $1 > /dev/null) && echo "Already Installed"
+  (run npm list -g | grep $1 > /dev/null) || (run sudo npm install -g $1)
+}
+
 function apt_search_starts_with {
   (run apt-cache search "$1" | grep "^$1")
 }
+
+##############################################################
+# Install zsh
+##############################################################
+echo 'Install zshrc (git clone)'
+run git clone git://github.com/evanmoran/.files.git "${HOME}/.files"
+run "${HOME}/.files/.links"
+
+##############################################################
+# Install ansible
+##############################################################
+
+# Install ansible
+echo 'Install ansible (make install)'
+run git clone git://github.com/ansible/ansible.git "${HOME}/bin/ansible"
+run sudo make -C "${HOME}/bin/ansible" install
+run rm -rf "${HOME}/bin/ansible"
+
+# Create key which will allow us to ssh 127.0.0.1
+echo 'Create ssh key to ssh into ourselves'
+LOOPBACK_SSH_KEYFILE="${HOME}/.ssh/loopback_id_rsa"
+echo "[ssh-keygen -t rsa -N '' -f $LOOPBACK_SSH_KEYFILE]"
+ssh-keygen -t rsa -N '' -f "$LOOPBACK_SSH_KEYFILE"
+echo "[cat $LOOPBACK_SSH_KEYFILE >> ${HOME}/.ssh/authorized_keys]"
+cat "$LOOPBACK_SSH_KEYFILE.pub" >> "${HOME}/.ssh/authorized_keys"
+cat <<EOF >> "${HOME}/.ssh/config"
+Host 127.0.0.1
+IdentityFile ~/.ssh/loopback_id_rsa
+EOF
+run chmod -R u=rwX,go= "${HOME}/.ssh"
+
+
 
 ##############################################################
 # Install apps
 ##############################################################
 
 apt_install zsh
-apt_install git
-apt_install nodejs
-apt_install mongodb
+apt_install make
 apt_install ack
-apt_install python
-apt_install ruby
+apt_install git
 apt_install tree
 apt_install p7zip
+
+apt_install nodejs
+
+apt_install python
+apt_install python-simplejson
+apt_install python-paramiko
+apt_install python-jinja2
+
+apt_install ruby
+
+echo "Add key to apt-get for mongodb"
+run sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | sudo tee /etc/apt/sources.list.d/10gen.list
+echo "Update apt-get for mongodb"
+sudo apt-get -y update
+apt_install "mongodb-10gen"
 
 echo "Install npm (with curl)"
 (which npm > /dev/null) || (curl https://npmjs.org/install.sh | sudo sh)

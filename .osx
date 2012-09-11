@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+# curl 'https://raw.github.com/evanmoran/.files/master/.osx' | bash
 
 # Run auto echos
 function run { echo -e "[$@]"; $@; }
@@ -14,6 +16,14 @@ function npm_install {
   (run npm list -g | grep $1 > /dev/null) && echo "Already Installed"
   (run npm list -g | grep $1 > /dev/null) || (run npm install -g $1)
 }
+
+##############################################################
+# Install zshrc
+##############################################################
+
+echo 'Install zshrc (git clone)'
+run git clone git://github.com/evanmoran/.files.git "${HOME}/.files"
+run "${HOME}/.files/.links"
 
 ##############################################################
 # Install apps

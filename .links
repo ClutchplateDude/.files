@@ -1,9 +1,16 @@
 #!/bin/sh
 
+# Supported arguments: "windows", "osx", "linux"
 function is_os {
+  if [ -z "$OS" ]; then
+    OS=$(uname -s)
+    [ "$?" -eq 0 ] || return 0
+  fi
   if [ $1 = "windows" ] && [ "$OS" = "Windows_NT" ]; then
     return 0
-  elif [ $1 = "osx" ] && [ ! "$OS" = "Windows_NT" ]; then
+  elif [ $1 = "linux" ] && [ "$OS" = "Linux" ]; then
+      return 0
+  elif [ $1 = "osx" ] && [ "$OS" = "Darwin" ]; then
     return 0
   fi
   return 1
@@ -12,7 +19,7 @@ function is_os {
 # Run -- Echo your command as it is run
 function run { echo "[$@]"; $@; }
 
-if is_os "osx"; then
+if is_os "osx" || is_os "linux"; then
   run ln -s $HOME/.files/.gitconfig $HOME/.gitconfig
   run ln -s $HOME/.files/.bash_profile $HOME/.bash_profile
   run ln -s $HOME/.files/.zshrc $HOME/.zshrc

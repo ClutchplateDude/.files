@@ -5,7 +5,6 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.files/.oh-my-zsh
 
-
 #──────────────────────────────────────────────────────
 # Theme
 #──────────────────────────────────────────────────────
@@ -42,11 +41,17 @@ source $ZSH/oh-my-zsh.sh
 #──────────────────────────────────────────────────────
 # OS Detection
 #──────────────────────────────────────────────────────
-# Supported arguments: "windows", "osx"
+# Supported arguments: "windows", "osx", "linux"
 function is_os {
+  if [ -z "$OS" ]; then
+    OS=$(uname -s)
+    [ "$?" -eq 0 ] || return 0
+  fi
   if [ $1 = "windows" ] && [ "$OS" = "Windows_NT" ]; then
     return 0
-  elif [ $1 = "osx" ] && [ ! "$OS" = "Windows_NT" ]; then
+  elif [ $1 = "linux" ] && [ "$OS" = "Linux" ]; then
+      return 0
+  elif [ $1 = "osx" ] && [ "$OS" = "Darwin" ]; then
     return 0
   fi
   return 1
@@ -100,6 +105,16 @@ elif is_os "osx"; then
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
   fi
+# Bind for Linux
+elif is_os "linux"; then
+  echo "Linux"
+
+  # Path for node
+  export NODE_PATH=/usr/local/lib/node_modules
+
+  # Path extension
+  export PATH="${HOME}/bin:$PATH"
+
 fi
 
 echo "  User:     $USER"
@@ -383,6 +398,7 @@ if is_location "home"; then
   alias f='cd ~/d/dev/face/$@'
   alias fu='cd ~/d/leaguefu/$@'
   alias fr='cd ~/framd/$@'
+  alias frw='cd ~/framd/web/$@'
   alias lf='cd ~/leaguefu/$@'
   alias lfr='cd ~/leaguefu/rip/$@'
   alias ggg='cd ~/gg/$@'
