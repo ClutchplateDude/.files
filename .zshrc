@@ -342,11 +342,11 @@ export CLICOLOR=1
 export LSCOLORS=exfxcxdxbxegedabagacad
 
 export LS_OPTIONS='--color=auto'
-eval `gdircolors ~/.dircolors`
 
 [ "$TERM" = "xterm" ] && TERM="xterm-256color"
 
 if is_os 'osx'; then
+  eval `gdircolors ~/.dircolors`
   # TODO: Detect if gls exists before binding these
   alias l='run gls --color -lh $@'
   alias la='run gls --color -lhAF $@'
@@ -354,6 +354,7 @@ if is_os 'osx'; then
   alias ls0='ls -Gp'
   alias ls1='ls -GF'
 elif is_os 'linux'; then
+  eval `dircolors ~/.dircolors`
   alias l='run ls --color -lh $@'
   alias la='run ls --color -lhAF $@'
   alias ls='run ls --color -F $@'

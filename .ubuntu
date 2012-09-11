@@ -28,35 +28,6 @@ function apt_search_starts_with {
   (run apt-cache search "$1" | grep "^$1")
 }
 
-##############################################################
-# Install zsh
-##############################################################
-echo 'Install zshrc (git clone)'
-run git clone git://github.com/evanmoran/.files.git "${HOME}/.files"
-run "${HOME}/.files/.links"
-
-##############################################################
-# Install ansible
-##############################################################
-
-# Install ansible
-echo 'Install ansible (make install)'
-run git clone git://github.com/ansible/ansible.git "${HOME}/bin/ansible"
-run sudo make -C "${HOME}/bin/ansible" install
-run sudo rm -rf "${HOME}/bin/ansible"
-
-# Create key which will allow us to ssh 127.0.0.1
-echo 'Create ssh key to ssh into ourselves'
-LOOPBACK_SSH_KEYFILE="${HOME}/.ssh/loopback_id_rsa"
-echo "[ssh-keygen -t rsa -N '' -f $LOOPBACK_SSH_KEYFILE]"
-ssh-keygen -t rsa -N '' -f "$LOOPBACK_SSH_KEYFILE"
-echo "[cat $LOOPBACK_SSH_KEYFILE >> ${HOME}/.ssh/authorized_keys]"
-cat "$LOOPBACK_SSH_KEYFILE.pub" >> "${HOME}/.ssh/authorized_keys"
-cat <<EOF >> "${HOME}/.ssh/config"
-Host 127.0.0.1
-IdentityFile ~/.ssh/loopback_id_rsa
-EOF
-run chmod -R u=rwX,go= "${HOME}/.ssh"
 
 
 
@@ -64,10 +35,10 @@ run chmod -R u=rwX,go= "${HOME}/.ssh"
 # Install apps
 ##############################################################
 
+apt_install git
 apt_install zsh
 apt_install make
 apt_install ack
-apt_install git
 apt_install tree
 apt_install emacs23-nox
 apt_install p7zip
@@ -99,4 +70,46 @@ npm_install "coffee-script"         # Javascript templating
 npm_install "node-dev"              # Auto node restarting
 npm_install "mocha"                 # Node test framework
 npm_install "groc"                  # Documentation generator
+
+##############################################################
+# Install zshrc
+##############################################################
+echo 'Install zshrc (git clone)'
+run git clone git://github.com/evanmoran/.files.git "${HOME}/.files"
+run "${HOME}/.files/.links"
+
+run pushd
+run cd "${HOME}/.files"
+run git sup
+run popd
+
+##############################################################
+# Install zshrc for this users
+##############################################################
+
+sudo chsh -s `which zsh` `whoami`
+
+##############################################################
+# Install ansible
+##############################################################
+
+# Install ansible
+echo 'Install ansible (make install)'
+run git clone git://github.com/ansible/ansible.git "${HOME}/bin/ansible"
+run sudo make -C "${HOME}/bin/ansible" install
+run sudo rm -rf "${HOME}/bin/ansible"
+
+# Create key which will allow us to ssh 127.0.0.1
+echo 'Create ssh key to ssh into ourselves'
+LOOPBACK_SSH_KEYFILE="${HOME}/.ssh/loopback_id_rsa"
+echo "[ssh-keygen -t rsa -N '' -f $LOOPBACK_SSH_KEYFILE]"
+ssh-keygen -t rsa -N '' -f "$LOOPBACK_SSH_KEYFILE"
+echo "[cat $LOOPBACK_SSH_KEYFILE >> ${HOME}/.ssh/authorized_keys]"
+cat "$LOOPBACK_SSH_KEYFILE.pub" >> "${HOME}/.ssh/authorized_keys"
+cat <<EOF >> "${HOME}/.ssh/config"
+Host 127.0.0.1
+IdentityFile ~/.ssh/loopback_id_rsa
+EOF
+run chmod -R u=rwX,go= "${HOME}/.ssh"
+
 
