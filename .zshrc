@@ -120,9 +120,8 @@ elif is_os "linux"; then
   # Path extension
   export PATH="${HOME}/bin:$PATH"
 
-  if is_location "server"; then
-    export ANSIBLE_HOSTS="${HOME}/.ansible_hosts"
-  fi
+  export ANSIBLE_HOSTS="${HOME}/.ansible_hosts"
+
 fi
 
 echo "  User:     $USER"
@@ -578,7 +577,7 @@ elif is_location "work"; then
 
 elif is_location "server"; then
 
-  alias a='ansible $@'
+  alias a='run ansible -c=ssh $@'
 
   echo -n " @Server"
 
