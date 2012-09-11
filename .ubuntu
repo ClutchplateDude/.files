@@ -84,10 +84,17 @@ run git sup
 run popd
 
 ##############################################################
-# Install zshrc for this users
+# Install zsh
 ##############################################################
 
-sudo chsh -s `which zsh` `whoami`
+echo 'Installing zsh ('
+run sudo chsh -s `which zsh` `whoami`
+
+##############################################################
+# Set location
+##############################################################
+echo 'Setting location to "server"'
+echo 'server' > "${HOME}/.location"
 
 ##############################################################
 # Install ansible
@@ -108,7 +115,8 @@ echo "[cat $LOOPBACK_SSH_KEYFILE >> ${HOME}/.ssh/authorized_keys]"
 cat "$LOOPBACK_SSH_KEYFILE.pub" >> "${HOME}/.ssh/authorized_keys"
 cat <<EOF >> "${HOME}/.ssh/config"
 Host 127.0.0.1
-IdentityFile ~/.ssh/loopback_id_rsa
+  IdentityFile ~/.ssh/loopback_id_rsa
+
 EOF
 run chmod -R u=rwX,go= "${HOME}/.ssh"
 

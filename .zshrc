@@ -11,6 +11,9 @@ ZSH=$HOME/.files/.oh-my-zsh
 
 ZSH_THEME="../../.king"
 
+alias king='sudo zsh'
+function chess { echo "\n   ♔  ♕  ♖  ♗  ♘  ♙    ♚  ♛  ♜  ♝  ♞  ♟\n" }
+
 #──────────────────────────────────────────────────────
 # Settings
 #──────────────────────────────────────────────────────
@@ -159,9 +162,8 @@ function define_colors {
   COLOR_UNDERLINE="\033[4m"
   PROMPT_COLOR_UNDERLINE="\[${COLOR_UNDERLINE}\]"
 }
-define_colors
 
-alias print_colors="echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}COLOR_WHITE\t${COLOR_WHITE_LIGHT}COLOR_WHITE_LIGHT\";echo -e \"${COLOR_BLUE}COLOR_BLUE\t${COLOR_BLUE_LIGHT}COLOR_BLUE_LIGHT\";echo -e \"${COLOR_GREEN}COLOR_GREEN\t${COLOR_GREEN_LIGHT}COLOR_GREEN_LIGHT\";echo -e \"${COLOR_CYAN}COLOR_CYAN\t${COLOR_CYAN_LIGHT}COLOR_LIGHT_CYAN\";echo -e \"${COLOR_RED}COLOR_RED\t${COLOR_RED_LIGHT}COLOR_RED_LIGHT\";echo -e \"${COLOR_MAGENTA}COLOR_MAGENTA\t${COLOR_MAGENTA_LIGHT}COLOR_MAGENTA_LIGHT\";echo -e \"${COLOR_YELLOW}COLOR_YELLOW\t${COLOR_YELLOW_LIGHT}COLOR_YELLOW_LIGHT\";echo -e \"${COLOR_BLACK}COLOR_BLACK\t${COLOR_BLACK_LIGHT}COLOR_BLACK_LIGHT\""11
+alias print_colors="define_colors; echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}COLOR_WHITE\t${COLOR_WHITE_LIGHT}COLOR_WHITE_LIGHT\";echo -e \"${COLOR_BLUE}COLOR_BLUE\t${COLOR_BLUE_LIGHT}COLOR_BLUE_LIGHT\";echo -e \"${COLOR_GREEN}COLOR_GREEN\t${COLOR_GREEN_LIGHT}COLOR_GREEN_LIGHT\";echo -e \"${COLOR_CYAN}COLOR_CYAN\t${COLOR_CYAN_LIGHT}COLOR_LIGHT_CYAN\";echo -e \"${COLOR_RED}COLOR_RED\t${COLOR_RED_LIGHT}COLOR_RED_LIGHT\";echo -e \"${COLOR_MAGENTA}COLOR_MAGENTA\t${COLOR_MAGENTA_LIGHT}COLOR_MAGENTA_LIGHT\";echo -e \"${COLOR_YELLOW}COLOR_YELLOW\t${COLOR_YELLOW_LIGHT}COLOR_YELLOW_LIGHT\";echo -e \"${COLOR_BLACK}COLOR_BLACK\t${COLOR_BLACK_LIGHT}COLOR_BLACK_LIGHT\""11
 
 # # user@host|git|path
 # PS1="${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\$ "
@@ -300,9 +302,6 @@ else
 
 fi
 
-function chess { echo "\n   ♔  ♕  ♖  ♗  ♘  ♙    ♚  ♛  ♜  ♝  ♞  ♟\n" }
-alias king='sudo zsh'
-
 #──────────────────────────────────────────────────────
 # One-time Aliases
 #──────────────────────────────────────────────────────
@@ -330,17 +329,13 @@ fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
-alias p='sub ~/.files/.osx ~/.files/.links ~/.files/.gitconfig ~/.files/.zshrc'
-
-alias config_links='~/.files/.links'
-alias config_osx='~/.files/.osx'
+alias p='sub ~/.files/.osx sub ~/.files/.ubuntu ~/.files/.links ~/.files/.gitconfig ~/.files/.zshrc'
 
 #──────────────────────────────────────────────────────
 # ls colors
 #──────────────────────────────────────────────────────
 export CLICOLOR=1
 export LSCOLORS=exfxcxdxbxegedabagacad
-
 export LS_OPTIONS='--color=auto'
 
 [ "$TERM" = "xterm" ] && TERM="xterm-256color"
@@ -376,59 +371,6 @@ alias s='cd ..'
 
 alias diff='run git difftool --extcmd=/usr/bin/opendiff $@'
 alias diffs='run git difftool --staged --extcmd=/usr/bin/opendiff $@'
-
-#──────────────────────────────────────────────────────
-# Location aliases
-#
-# Edit ~/.location to configure
-#──────────────────────────────────────────────────────
-
-echo -n "  Aliases: "
-
-#──────────────────────────────────────────────────────
-# Shared Aliases
-#──────────────────────────────────────────────────────
-
-alias d='cd ~/d/ $@'
-alias e='cd ~/e/ $@'
-alias g='cd ~/g/ $@'
-
-#──────────────────────────────────────────────────────
-# Home Aliases
-#──────────────────────────────────────────────────────
-
-if is_location "home"; then
-  echo -n " @Home"
-
-  alias dd='cd ~/d/dev/$@'
-  alias f='cd ~/d/dev/face/$@'
-  alias fu='cd ~/d/leaguefu/$@'
-  alias fr='cd ~/framd/$@'
-  alias frw='cd ~/framd/web/$@'
-  alias lf='cd ~/leaguefu/$@'
-  alias lfr='cd ~/leaguefu/rip/$@'
-  alias ggg='cd ~/gg/$@'
-  # alias smite='node ~/smite/src/app.js $@'
-  alias sm='cd ~/smite/$@'
-  alias oj='cd ~/oj/$@'
-  alias smdb='cd ~/smite-db-mongoose/$@'
-  alias smd='cd ~/smite/demo/$@'
-  alias smt='cd ~/smite/test/$@'
-  alias smc='cd ~/smite-client/$@'
-  alias frd='cd ~/framd/docs/$@'
-  alias frt='cd ~/framd/test/$@'
-  alias frp='cd ~/framd/prototype/$@'
-  alias frs='cd ~/framd/src/$@'
-
-#──────────────────────────────────────────────────────
-# Work Aliases
-#──────────────────────────────────────────────────────
-
-elif is_location "work"; then
-  echo -n " @Work"
-fi
-
-echo # Newline
 
 # Run, change color, and echo
 function ssh {
@@ -486,85 +428,6 @@ alias grim='run git rebase -i origin/master'
 alias gromf='gf && grom'
 alias gros='run git rebase origin/staging'
 alias gris='run git rebase -i origin/staging'
-
-
-
-# # Aliases
-# alias g='git'
-# compdef g=git
-# alias gst='git status'
-# compdef _git gst=git-status
-# alias gl='git pull'
-# compdef _git gl=git-pull
-# alias gup='git fetch && git rebase'
-# compdef _git gup=git-fetch
-# alias gp='git push'
-# compdef _git gp=git-push
-# gdv() { git diff -w "$@" | view - }
-# compdef _git gdv=git-diff
-# alias gc='git commit -v'
-# compdef _git gc=git-commit
-# alias gca='git commit -v -a'
-# compdef _git gca=git-commit
-# alias gco='git checkout'
-# compdef _git gco=git-checkout
-# alias gcm='git checkout master'
-# alias gb='git branch'
-# compdef _git gb=git-branch
-# alias gba='git branch -a'
-# compdef _git gba=git-branch
-# alias gcount='git shortlog -sn'
-# compdef gcount=git
-# alias gcp='git cherry-pick'
-# compdef _git gcp=git-cherry-pick
-# alias glg='git log --stat --max-count=5'
-# compdef _git glg=git-log
-# alias glgg='git log --graph --max-count=5'
-# compdef _git glgg=git-log
-# alias gss='git status -s'
-# compdef _git gss=git-status
-# alias ga='git add'
-# compdef _git ga=git-add
-# alias gm='git merge'
-# compdef _git gm=git-merge
-# alias grh='git reset HEAD'
-# alias grhh='git reset HEAD --hard'
-
-# # Git and svn mix
-# alias git-svn-dcommit-push='git svn dcommit && git push github master:svntrunk'
-# compdef git-svn-dcommit-push=git
-
-# alias gsr='git svn rebase'
-# alias gsd='git svn dcommit'
-# #
-# # Will return the current branch name
-# # Usage example: git pull origin $(current_branch)
-# #
-# function current_branch() {
-#   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-#   echo ${ref#refs/heads/}
-# }
-
-# function current_repository() {
-
-#   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-#   echo $(git remote -v | cut -d':' -f 2)
-# }
-
-# # these aliases take advantage of the previous function
-# alias ggpull='git pull origin $(current_branch)'
-# compdef ggpull=git
-# alias ggpush='git push origin $(current_branch)'
-# compdef ggpush=git
-# alias ggpnp='git pull origin $(current_branch) && git push origin $(current_branch)'
-# compdef ggpnp=git
-
-
-
-
-
-
-
 
 alias gack='run git add . && git commit -m "f"'
 alias grimace='run git add . && git commit -m "f" && git rebase -i master'
@@ -657,4 +520,69 @@ alias rs='run rails server'
 alias pg='run ps axw | grep -i'
 alias plg='run port list | grep -i'
 
+#──────────────────────────────────────────────────────
+# Location aliases
+#
+# Edit ~/.location to configure
+#──────────────────────────────────────────────────────
+
+echo -n "  Aliases: "
+
+#──────────────────────────────────────────────────────
+# Home Aliases
+#──────────────────────────────────────────────────────
+
+if is_location "home"; then
+  echo -n " @Home"
+
+  # Drives
+  alias d='cd ~/d/ $@'
+  alias e='cd ~/e/ $@'
+  alias g='cd ~/g/ $@'
+  alias dd='cd ~/d/dev/$@'
+  alias f='cd ~/d/dev/face/$@'
+  alias fu='cd ~/d/leaguefu/$@'
+  alias fr='cd ~/framd/$@'
+  alias frw='cd ~/framd/web/$@'
+  alias lf='cd ~/leaguefu/$@'
+  alias lfr='cd ~/leaguefu/rip/$@'
+  alias ggg='cd ~/gg/$@'
+  alias sm='cd ~/smite/$@'
+  alias oj='cd ~/oj/$@'
+  alias smdb='cd ~/smite-db-mongoose/$@'
+  alias smd='cd ~/smite/demo/$@'
+  alias smt='cd ~/smite/test/$@'
+  alias smc='cd ~/smite-client/$@'
+  alias frd='cd ~/framd/docs/$@'
+  alias frt='cd ~/framd/test/$@'
+  alias frp='cd ~/framd/prototype/$@'
+  alias frs='cd ~/framd/src/$@'
+
+#──────────────────────────────────────────────────────
+# Work Aliases
+#──────────────────────────────────────────────────────
+
+elif is_location "work"; then
+  echo -n " @Work"
+fi
+
+#──────────────────────────────────────────────────────
+# Server Aliases
+#──────────────────────────────────────────────────────
+
+elif is_location "server"; then
+
+  alias a='ansible $@'
+
+  echo -n " @Server"
+
+else
+  echo -n " @Unknown (no aliases bound)"
+fi
+
+#──────────────────────────────────────────────────────
+# End
+#──────────────────────────────────────────────────────
+# Two newlines
+echo
 echo
