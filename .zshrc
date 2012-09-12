@@ -121,6 +121,7 @@ elif is_os "linux"; then
 
   # Path for ansible
   export ANSIBLE_HOSTS="${HOME}/.ansible_hosts"
+  export ANSIBLE_TRANSPORT="ssh"
 
 fi
 
