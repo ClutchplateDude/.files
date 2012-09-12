@@ -86,8 +86,9 @@ if is_os "windows"; then
   echo "Windows"
   export USER=$USERNAME                 # OSX already has this
   export PATH=$PATH
+  export PATH=~/bin:$PATH
   export PATH=~/bin/windows:$PATH
-  export EDITOR="vim"
+  export EDITOR="emacs"
 
 # Bind for OSX
 elif is_os "osx"; then
@@ -109,6 +110,11 @@ elif is_os "osx"; then
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
   fi
+
+  # Path for ansible
+  export ANSIBLE_HOSTS="${HOME}/.ansible_hosts"
+  export ANSIBLE_TRANSPORT="ssh"
+
 # Bind for Linux
 elif is_os "linux"; then
   echo "Linux"
@@ -116,13 +122,17 @@ elif is_os "linux"; then
   # Path extension
   export PATH="${HOME}/bin:$PATH"
 
+  export EDITOR="emacs"
+
   # Path for node
   export NODE_PATH=/usr/lib/node_modules
+fi
 
+# Bind for osx and linux
+if is_os "osx" || is_os "linux"; then
   # Path for ansible
   export ANSIBLE_HOSTS="${HOME}/.ansible_hosts"
   export ANSIBLE_TRANSPORT="ssh"
-
 fi
 
 echo "  User:     $USER"
