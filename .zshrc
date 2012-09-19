@@ -411,6 +411,7 @@ function ssh {
 alias m='git checkout master'     # Change to master branch\
 alias b='git checkout -'          # Toggle to last branch
 
+alias g='git $@'
 alias go='git checkout $@'
 
 # Git core information
@@ -593,8 +594,6 @@ if is_location "home"; then
 
   # Drives
   alias d='cd ~/d/ $@'
-  alias e='cd ~/e/ $@'
-  alias g='cd ~/g/ $@'
   alias dd='cd ~/d/dev/$@'
   alias f='cd ~/d/dev/face/$@'
   alias fu='cd ~/d/leaguefu/$@'
