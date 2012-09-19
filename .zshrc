@@ -102,8 +102,11 @@ elif is_os "osx"; then
 
   # Todo: Fix path to be LOCATION based.
   export PATH=/usr/local/Cellar/git/1.7.8/bin:$PATH
+
+  export PATH=/usr/local/share/python:$PATH
   export PATH=~/bin:$PATH
   export PATH=~/bin/osx:$PATH
+
   export EDITOR="sub -w"
 
   if [ -d $HOME/.rbenv ]; then
@@ -111,21 +114,29 @@ elif is_os "osx"; then
     eval "$(rbenv init -)"
   fi
 
-  # Path for ansible
+  # Paths for ansible
   export ANSIBLE_HOSTS="${HOME}/.ansible_hosts"
   export ANSIBLE_TRANSPORT="ssh"
+
+  # Paths for EC2
+
+  export JAVA_HOME="$(/usr/libexec/java_home)"
+  export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ssh/ec2/pk-*.pem | /usr/bin/head -1)"
+  export EC2_CERT="$(/bin/ls "$HOME"/.ssh/ec2/cert-*.pem | /usr/bin/head -1)"
+  export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
+  export EC2_AMITOOL_HOME="/usr/local/Library/LinkedKegs/ec2-ami-tools/jars"
 
 # Bind for Linux
 elif is_os "linux"; then
   echo "Linux"
 
   # Path extension
-  export PATH="${HOME}/bin:$PATH"
+  export PATH="${HOME}/bin:${HOME}/.local/bin:$PATH"
 
   export EDITOR="emacs"
 
   # Path for node
-  export NODE_PATH=/usr/lib/node_modules
+  export NODE_PATH="#{HOME}/.node_modules"
 fi
 
 # Bind for osx and linux
@@ -344,7 +355,7 @@ fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
-alias p='sub ~/.files/.osx sub ~/.files/.ubuntu ~/.files/.links ~/.files/.gitconfig ~/.files/.zshrc'
+alias p="${EDITOR} ~/.files/.osx ~/.files/.ubuntu ~/.files/.links ~/.files/.gitconfig ~/.files/.zshrc"
 
 alias reload="pushd ${HOME}/.files > /dev/null; git pull; source ${HOME}/.files/.zshrc; popd > /dev/null"
 
@@ -496,6 +507,35 @@ alias db='rung cake db'
 alias db2='runy mongo localhost:4000/database'
 
 #──────────────────────────────────────────────────────
+# Ansible aliases
+#──────────────────────────────────────────────────────
+
+alias a="${EDITOR} ${HOME}/.ansible_hosts"
+alias an='run ansible $@'
+alias anp='run ansible-playbook $@'
+alias anu="run ansible $@ -u ubuntu"
+
+
+#──────────────────────────────────────────────────────
+# EC2 aliases
+#──────────────────────────────────────────────────────
+# EC2FILTER = "awk -v OFS='    ' -F'\t' '{print $2, $3, $6, $4}'"
+
+EC2FILTER="grep INSTANCE | awk -v OFS='    ' -F'\\\\t' '{print \$2, \$3, \$6, \$4}'"
+alias els="echo '[ec2-describe-instances]'; ec2-describe-instances | $EC2FILTER"
+alias els1="echo '[ec2-describe-instances --region us-east-1]'; ec2-describe-instances --region us-east-1 | $EC2FILTER"
+alias els2="echo '[ec2-describe-instances --region us-east-2]'; ec2-describe-instances --region us-east-2 | $EC2FILTER"
+alias els3="echo '[ec2-describe-instances --region us-east-3]'; ec2-describe-instances --region us-east-3 | $EC2FILTER"
+alias els1w="echo '[ec2-describe-instances --region us-west-1]'; ec2-describe-instances --region us-west-1 | $EC2FILTER"
+alias els2w="echo '[ec2-describe-instances --region us-west-2]'; ec2-describe-instances --region us-west-2 | $EC2FILTER"
+alias els3w="echo '[ec2-describe-instances --region us-west-3]'; ec2-describe-instances --region us-west-3 | $EC2FILTER"
+alias ekeys="run ec2-describe-keypairs"
+alias erm="run ec2-terminate-instances $@"
+alias estop="run ec2-stop-instances $@"
+alias estart="run ec2-start-instances $@"
+alias erun='run ec2-run-instances ami-137bcf7a -g sg-22f5824a -k evan_sphinx --instance-type t1.micro --region us-east-1 $@'
+alias ermall='for i in `ec2din | grep running | cut -f2`; do ec2kill $i; done'
+#──────────────────────────────────────────────────────
 # Heroku aliases
 #──────────────────────────────────────────────────────
 
@@ -587,8 +627,6 @@ elif is_location "work"; then
 #──────────────────────────────────────────────────────
 
 elif is_location "server"; then
-
-  alias a='run ansible -c=ssh $@'
 
   echo -n " @Server"
 
