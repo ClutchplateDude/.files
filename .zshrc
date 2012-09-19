@@ -130,12 +130,11 @@ elif is_os "osx"; then
 elif is_os "linux"; then
   echo "Linux"
 
-  # Path extension
   export PATH="${HOME}/bin:${HOME}/.local/bin:$PATH"
 
+  export MANPATH="${HOME}/share/man:${HOME}/.local/share/man:$MANPATH"
   export EDITOR="emacs"
 
-  # Path for node
   export NODE_PATH="#{HOME}/.node_modules"
 fi
 
