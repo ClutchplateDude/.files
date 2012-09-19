@@ -47,6 +47,7 @@ brew_install zsh
 brew_install nodejs
 brew_install mongodb
 brew_install python
+brew_install python3
 brew_install ack
 brew_install xz
 brew_install p7zip
@@ -58,8 +59,17 @@ brew_install coreutils  # gnu version of utility (used for dircolors)
 echo "Install npm (with curl)"
 (which npm > /dev/null) || (curl http://npmjs.org/install.sh | sh)
 
+##############################################################
+# Python, virtualenv, virtualenvwrapper
+##############################################################
+sudo easy_install pip
+sudo pip install virtualenv
+sudo pip install virtualenvwrapper
+
+sudo pip install pygments
+
 # Pigments
-sudo easy_install pygments
+# sudo easy_install pygments
 
 # Node.js framework
 npm_install "coffee-script"         # Javascript templating
@@ -72,6 +82,14 @@ npm_install "groc"                  # Documentation generator
 echo "Install plugin to support multiple heroku accounts"
 echo "Note: Add accounts to heroku with: heroku accounts:add <name>"
 heroku plugins:install git://github.com/ddollar/heroku-accounts.git
+
+##############################################################
+# Install Ansible
+##############################################################
+echo 'Install ansible (make install)'
+run git clone git://github.com/ansible/ansible.git "${HOME}/bin/ansible"
+run sudo make -C "${HOME}/bin/ansible" install
+run sudo rm -rf "${HOME}/bin/ansible"
 
 ##############################################################
 # Setup XCode Themes
