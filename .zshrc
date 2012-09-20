@@ -521,10 +521,10 @@ alias an='run ansible $@'
 alias anp='run ansible-playbook $@'
 alias anu="run ansible $@ -u ubuntu"
 
-alias framdpull='run ansible-playbook ~/framd/ansible/framd.all.yml -t pull $@"'
-alias framdinstall='run ansible-playbook ~/framd/ansible/framd.all.yml -t install $@"'
-alias framddbinstall='run ansible-playbook ~/framd/ansible/framd.db.yml -t install $@"'
-alias framdwebinstall='run ansible-playbook ~/framd/ansible/framd.web.yml -t install $@"'
+alias framdpull='run ansible-playbook ~/framd/ansible/framd.all.yml -t pull $@'
+alias framdinstall='run ansible-playbook ~/framd/ansible/framd.all.yml -t install $@'
+alias framddbinstall='run ansible-playbook ~/framd/ansible/framd.db.yml -t install $@'
+alias framdwebinstall='run ansible-playbook ~/framd/ansible/framd.web.yml -t install $@'
 
 #──────────────────────────────────────────────────────
 # EC2 aliases
