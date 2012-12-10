@@ -1,25 +1,28 @@
 [user]
 	name = Evan Moran
-	email = evanmoran@gmail.com
+	email = evan@evanmoran.com
 [color]
 	ui = auto
 [core]
 	editor = sub -w
+	excludesfile = /Users/evan/.gitignore_global
 [push]
 	default = current
 [branch]
 	autosetuprebase = always
 [alias]
 	panic = !tar cvf ../git_panic.tar .
-
-	d = diff
-	co = checkout
+  yank = !echo "git pull --rebase && git submodule update --init --recursive"; git pull --rebase && git submodule update --init --recursive
+  d = diff
+  co = checkout
   br = branch
-	st = status
-	ci = commit
-	cia = commit --amend
-	staged = diff --cached
-	cp = cherry-pick
+  st = status
+  ci = commit
+  cia = commit --amend
+  staged = diff --cached
+  cp = cherry-pick
+  ls = !ls -dF `git ls-tree --name-only HEAD`
+  lsa = !ls -dlF `git ls-tree --name-only HEAD`
 
   rma = !git ls-files --deleted -z | xargs -0 git rm
 
@@ -52,10 +55,16 @@
     lost = !"git fsck | awk '/dangling commit/ {print $3}' | git show --format='SHA1: %C(yellow)%h%Creset %f' --stdin | awk '/SHA1/ {sub(\"SHA1: \", \"\"); print}'"
     heads = !"git log origin/master.. --format='%Cred%h%Creset;%C(yellow)%an%Creset;%H;%Cblue%f%Creset' | git name-rev --stdin --always --name-only | column -t -s';'"
 
-    sup = submodule update --init --recursive
+    sup = !git submodule update --init --recursive
     patches = log --reverse -p
     grab = fetch -p --recurse-submodules=yes
 
 
 
 
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

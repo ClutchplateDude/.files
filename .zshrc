@@ -12,6 +12,9 @@ ZSH=$HOME/.files/.oh-my-zsh
 ZSH_THEME="../../.king"
 
 alias king='sudo zsh'
+
+# TODO: If you are in the directory included in PATH, turn into a queen
+# TODO: If you are in a git repository, turn into a bishop? Dropbox/Google drive/Skydrive Rook?
 function chess { echo "\n   ♔  ♕  ♖  ♗  ♘  ♙    ♚  ♛  ♜  ♝  ♞  ♟\n" }
 
 #──────────────────────────────────────────────────────
@@ -100,9 +103,11 @@ elif is_os "osx"; then
   # Path for node
   export NODE_PATH=/usr/local/lib/node_modules
 
+  # Path for npm
+  export PATH=/usr/local/share/npm/bin:$PATH
+
   # Todo: Fix path to be LOCATION based.
   export PATH=/usr/local/Cellar/git/1.7.8/bin:$PATH
-
   export PATH=/usr/local/share/python:$PATH
   export PATH=~/bin:$PATH
   export PATH=~/bin/osx:$PATH
@@ -190,24 +195,6 @@ function define_colors {
 
 alias print_colors="define_colors; echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}COLOR_WHITE\t${COLOR_WHITE_LIGHT}COLOR_WHITE_LIGHT\";echo -e \"${COLOR_BLUE}COLOR_BLUE\t${COLOR_BLUE_LIGHT}COLOR_BLUE_LIGHT\";echo -e \"${COLOR_GREEN}COLOR_GREEN\t${COLOR_GREEN_LIGHT}COLOR_GREEN_LIGHT\";echo -e \"${COLOR_CYAN}COLOR_CYAN\t${COLOR_CYAN_LIGHT}COLOR_LIGHT_CYAN\";echo -e \"${COLOR_RED}COLOR_RED\t${COLOR_RED_LIGHT}COLOR_RED_LIGHT\";echo -e \"${COLOR_MAGENTA}COLOR_MAGENTA\t${COLOR_MAGENTA_LIGHT}COLOR_MAGENTA_LIGHT\";echo -e \"${COLOR_YELLOW}COLOR_YELLOW\t${COLOR_YELLOW_LIGHT}COLOR_YELLOW_LIGHT\";echo -e \"${COLOR_BLACK}COLOR_BLACK\t${COLOR_BLACK_LIGHT}COLOR_BLACK_LIGHT\""11
 
-# # user@host|git|path
-# PS1="${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\$ "
-
-# # git|path
-# alias psn="PS1='\[${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
-
-# # heroku|git|path
-# alias psh="PS1='\[${PROMPT_COLOR_USER}\$(heroku_account)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
-
-# # user@host|git|path
-# alias ps1="PS1='\[${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
-
-# # time|user@host|git|path
-# alias ps2="PS1='\[${PROMPT_COLOR_TIME}\t${PROMPT_COLOR_NONE}|${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
-
-# # history|time|user@host|git|path
-# alias ps3="PS1='\[${PROMPT_COLOR_HISTORY}\!${PROMPT_COLOR_NONE}|${PROMPT_COLOR_TIME}\t${PROMPT_COLOR_NONE}|${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE}|${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}|${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE}\]\$ '"
-
 #──────────────────────────────────────────────────────
 # Terminal aliases
 #──────────────────────────────────────────────────────
@@ -239,19 +226,6 @@ alias print_colors="define_colors; echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \
 # darkbasegreen    n/a                                         12  26  14                              ---            bg
 # darkbasecyan     n/a                                          0  28  29                              ---            bg
 # darkbasepurple   n/a                                         20  12  29                              ---            bg
-
-# ------ Light/DARK ---------------------------------------------
-# NONE              Text                          n/a
-# WHITE             OppositeBGHighlight           OppositeBG
-# CYAN              Cyan                          Emphasis
-# MAGENTA           Magenta                       Violet
-# BLUE              blue                          Text
-# YELLOW            Yellow                        OppositeText
-# GREEN             Green                         Comment
-# RED               Red                           Orange
-# BLACK             BGHighlight                   BG
-# ---------------------------------------------------------------
-
 
 #──────────────────────────────────────────────────────
 # Aliases
@@ -356,6 +330,9 @@ fi
 
 alias p="${EDITOR} ~/.files/.osx ~/.files/.ubuntu ~/.files/.links ~/.files/.gitconfig ~/.files/.zshrc"
 
+alias plan="${EDITOR} ~/.plan"
+alias notes="${EDITOR} ~/.notes"
+
 alias reload="pushd ${HOME}/.files > /dev/null; git pull; source ${HOME}/.files/.zshrc; popd > /dev/null"
 
 #──────────────────────────────────────────────────────
@@ -370,16 +347,17 @@ export LS_OPTIONS='--color=auto'
 if is_os 'osx'; then
   eval `gdircolors ~/.dircolors`
   # TODO: Detect if gls exists before binding these
-  alias l='run gls --color -lh $@'
-  alias la='run gls --color -lhAF $@'
-  alias ls='run gls --color -F $@'
+  alias ls='run gls --color -F $@'      # Compact view
+  alias ll='run gls --color -AF $@'     # Compact view, showing hidden
+  alias la='run gls --color -lhAF $@'   # Full view, showing hidden
+  alias l.='gls --color -adF .*'        # Show just .files
   alias ls0='ls -Gp'
   alias ls1='ls -GF'
 elif is_os 'linux'; then
   eval `dircolors ~/.dircolors`
-  alias l='run ls --color -lh $@'
-  alias la='run ls --color -lhAF $@'
-  alias ls='run ls --color -F $@'
+  alias ls='run ls --color -F $@'       # Compact view
+  alias ll='run ls --color -AF $@'      # Compact view, showing hidden
+  alias la='run ls --color -lhAF $@'    # Full view, showing hidden
 fi
 
 #──────────────────────────────────────────────────────
@@ -409,6 +387,7 @@ function ssh {
 #──────────────────────────────────────────────────────
 
 alias psx='ps aux $@'
+alias psg='ps aux | grep $@'
 
 #──────────────────────────────────────────────────────
 # Git aliases
@@ -435,6 +414,9 @@ alias gd='run git diff'
 alias gds='run git diff --staged'
 alias gdc='run git diff --cached'
 
+# Git workflow
+
+
 # Git core manipulation
 
 alias ga='run git add'
@@ -442,8 +424,11 @@ alias gap='run git add -p'
 
 alias gf='run git fetch'
 alias gp='run git pull'
+alias gpr='run git pull --rebase'
+alias gy='run git yank'
 
 alias gc='run git commit'
+alias gca='run git commit --amend $@'
 alias gcm='run git commit -m "$@"'
 
 alias gr='run git remote $@'
@@ -463,6 +448,9 @@ alias gromf='gf && grom'
 alias gros='run git rebase origin/staging'
 alias gris='run git rebase -i origin/staging'
 
+# Rebase interactive to the origin/branch you are currently upstream to.
+alias grit='git symbolic-ref -q HEAD | xargs git for-each-ref --format="%(upstream:short)" | xargs -o git rebase -i'
+
 alias gack='run git add . && git commit -m "f"'
 alias grimace='run git add . && git commit -m "f" && git rebase -i master'
 
@@ -478,6 +466,12 @@ alias git_list_remote_branches='run git br -r'
 alias git_delete_remote_branch='echo "git push <remotename> --delete <branchname>"'
 alias git_show_file_stats_between_branches='git '
 # Visual diffs in OSX using built in opendiff
+
+
+#──────────────────────────────────────────────────────
+# Python aliases
+#──────────────────────────────────────────────────────
+alias pt='py.test $@'
 
 #──────────────────────────────────────────────────────
 # Node aliases
@@ -509,7 +503,6 @@ alias tw='mocha --reporter min --watch'
 # Mongo aliases
 #──────────────────────────────────────────────────────
 
-alias db='rung cake db'
 alias db2='runy mongo localhost:4000/database'
 
 #──────────────────────────────────────────────────────
@@ -581,6 +574,11 @@ alias rsd='runl rails server --debugger'
 alias rs='run rails server'
 
 #──────────────────────────────────────────────────────
+# OPS Aliases
+#──────────────────────────────────────────────────────
+alias digs='dig $@ +nostats +nocomments +nocmd'
+
+#──────────────────────────────────────────────────────
 # Unsorted
 #──────────────────────────────────────────────────────
 
@@ -599,6 +597,10 @@ echo -n "  Aliases: "
 # Home Aliases
 #──────────────────────────────────────────────────────
 
+function pidOf {
+  ps aux | grep "$1" | grep -v grep | tail -n 1 | awk '{ print $2; }'
+}
+
 if is_location "home"; then
   echo -n " @Home"
 
@@ -607,21 +609,25 @@ if is_location "home"; then
   alias dd='cd ~/d/dev/$@'
   alias f='cd ~/d/dev/face/$@'
   alias fu='cd ~/d/leaguefu/$@'
+  alias z='cd ~/zillow/$@'
   alias fr='cd ~/framd/$@'
   alias frw='cd ~/framd/web/$@'
   alias lf='cd ~/leaguefu/$@'
   alias lfr='cd ~/leaguefu/rip/$@'
   alias ggg='cd ~/gg/$@'
-  alias sm='cd ~/smite/$@'
-  alias oj='cd ~/oj/$@'
-  alias smdb='cd ~/smite-db-mongoose/$@'
-  alias smd='cd ~/smite/demo/$@'
-  alias smt='cd ~/smite/test/$@'
-  alias smc='cd ~/smite-client/$@'
-  alias frd='cd ~/framd/docs/$@'
-  alias frt='cd ~/framd/test/$@'
+  alias sm='cd ~/framd/lib/smite/$@'
+  alias ojd='cd ~/oj/$@'
+  alias db='green; (cd ~/framd/db; cake db) &; sleep 0.3; DB_PID=`pidOf "mongod --config config/development.conf"`; less +F ~/framd/db/logs/db-development.log; kill $DB_PID; blue'
+  alias smdb='cd ~/framd/lib/smite-db-mongoose/$@'
+  alias smd='cd ~/framd/lib/smite/demo/$@'
+  alias smt='cd ~/framd/lib/smite/test/$@'
+  alias smc='cd ~/framd/lib/smite/lib/smite-client/$@'
+  alias act='cd ~/framd/lib/act/$@'
+  alias actw='(cd ~/framd/lib/act; runy cake build:js:watch)'
+  alias frd='cd ~/framd/db/$@'
+  alias frt='cd ~/framd/web/test/$@'
+  alias frs='cd ~/framd/web/src/$@'
   alias frp='cd ~/framd/prototype/$@'
-  alias frs='cd ~/framd/src/$@'
 
 #──────────────────────────────────────────────────────
 # Work Aliases

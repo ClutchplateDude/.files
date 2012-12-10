@@ -25,4 +25,6 @@ if is_os "osx" || is_os "linux"; then
   run ln -s $HOME/.files/.zshrc $HOME/.zshrc
   run ln -s $HOME/.files/.ackrc $HOME/.ackrc
   run ln -s $HOME/.files/.dircolors $HOME/.dircolors
+  run ln -s $HOME/d/.plan $HOME/.plan
+  run ln -s $HOME/d/.notes $HOME/.notes
 fi
