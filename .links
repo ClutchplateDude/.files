@@ -27,4 +27,11 @@ if is_os "osx" || is_os "linux"; then
   run ln -s $HOME/.files/.dircolors $HOME/.dircolors
   run ln -s $HOME/d/.plan $HOME/.plan
   run ln -s $HOME/d/.notes $HOME/.notes
+
+  # Backup UserData directory if present
+  if [ ! -d $HOME/Library/Developer/Xcode/UserData.bak ] ; then
+    echo "[Backing up $HOME/Library/Developer/Xcode/UserData]"
+    mv $HOME/Library/Developer/Xcode/UserData $HOME/Library/Developer/Xcode/UserData.bak
+  fi
+  run ln -s $HOME/.files/.xcode/UserData $HOME/Library/Developer/Xcode/UserData
 fi
