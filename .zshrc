@@ -408,7 +408,12 @@ function gl {
   comment "git lg | head -n ${1:-20}"
   git lg | head -n ${1:-20}
 }
-alias gg='echo -e "\n------------ Git Branch ------------ \n";git branch;echo -e "\n------------ Git Status ------------ \n";git status;echo -e "\n------------ Git Log -------------- \n";git lg | head -n 12'
+
+alias glm='git lg | grep Evan'
+
+alias gg='echo -e "\n------------ Git Branch ------------ \n";git branch;echo -e "\n------------ Git Status ------------ \n";git status;echo -e "\n------------ Git Log --------------- \n";git lg | head -n 12'
+
+alias ggm='echo -e "\n------------ Git Branch ------------ \n";git branch;echo -e "\n------------ Git Status ------------ \n";git status;echo -e "\n-------- Git Log (Filtered) -------- \n";git lg | grep Evan | head -n 12 '
 
 alias gd='run git diff'
 alias gds='run git diff --staged'
@@ -455,6 +460,7 @@ alias gack='run git add . && git commit -m "f"'
 alias grimace='run git add . && git commit -m "f" && git rebase -i master'
 
 # To remember
+alias git_monthly='git log --author evanmoran --format="%ci" | cut -f1-2 -d- | uniq -c | tail -r'
 alias git_reset_head='run git reset -p HEAD'
 alias git_deleted='run git ls-files -d'
 alias git_restore_deleted='run git ls-files -d | xargs git checkout --'
