@@ -180,7 +180,7 @@
 				<key>Parent Title</key>
 				<string>Behaviors</string>
 				<key>Title</key>
-				<string>New Behavior</string>
+				<string>View Tab</string>
 			</dict>
 			<dict>
 				<key>Action</key>
@@ -782,6 +782,10 @@
 	<dict>
 		<key>Key Bindings</key>
 		<dict>
+			<key>$</key>
+			<string>moveToBeginningOfDocumentAndModifySelection:</string>
+			<key>$</key>
+			<string>moveToEndOfDocumentAndModifySelection:</string>
 			<key>@d</key>
 			<string>selectWord:</string>
 			<key>@l</key>

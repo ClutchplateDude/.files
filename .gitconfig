@@ -10,6 +10,8 @@
 	default = current
 [branch]
 	autosetuprebase = always
+[status]
+	submodulesummary = true
 [alias]
 	panic = !tar cvf ../git_panic.tar .
   yank = !echo "git pull --rebase && git submodule update --init --recursive"; git pull --rebase && git submodule update --init --recursive
@@ -55,16 +57,18 @@
     lost = !"git fsck | awk '/dangling commit/ {print $3}' | git show --format='SHA1: %C(yellow)%h%Creset %f' --stdin | awk '/SHA1/ {sub(\"SHA1: \", \"\"); print}'"
     heads = !"git log origin/master.. --format='%Cred%h%Creset;%C(yellow)%an%Creset;%H;%Cblue%f%Creset' | git name-rev --stdin --always --name-only | column -t -s';'"
 
-    sup = !git submodule update --init --recursive
+    sup = submodule update --init --recursive
     patches = log --reverse -p
     grab = fetch -p --recurse-submodules=yes
+
+    cleanall = clean -fxd
 
 
 
 
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true

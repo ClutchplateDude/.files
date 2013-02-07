@@ -27,15 +27,6 @@ function chess { echo "\n   ♔  ♕  ♖  ♗  ♘  ♙    ♚  ♛  ♜  ♝  
 # Comment this out to disable weekly auto-update checks
 # DISABLE_AUTO_UPDATE="true"
 
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
-
 #──────────────────────────────────────────────────────
 # Plugins
 #──────────────────────────────────────────────────────
@@ -252,16 +243,18 @@ if is_os "osx"; then
   # Run -- Echo your command as it is run
   function comment { echo -e "${COLOR_COMMENT}[$@]${COLOR_NONE}"; }
   function run { comment $@; $@; }
+  function run_color { local C1=$1; local C2=$2; shift; shift; comment $@; $C1; $@; local ERR=$?; $C2; return $ERR}
 
   # Color terminal during run
-  function runl { light; run $@; dark; }
-  function rund { dark; run $@; light; }
-  function runr { red; run $@; dark; }
-  function rung { green; run $@; dark; }
-  function runp { purple; run $@; dark; }
-  function runy { yellow; run $@; dark; }
-  function runo { orange; run $@; dark; }
-  function runc { cyan; run $@; dark; }
+  # function runl { light; run $@; local E=$?; dark; return $E }
+  function runl { run_color light dark "$@" }
+  function rund { run_color dark light "$@" }
+  function runr { run_color red dark "$@" }
+  function rung { run_color green dark "$@" }
+  function runp { run_color purple dark "$@" }
+  function runy { run_color yellow dark "$@" }
+  function runo { run_color orange dark "$@" }
+  function runc { run_color cyan dark "$@" }
 
   # Beep
   function beep { echo -n ''; }
@@ -397,7 +390,8 @@ alias m='git checkout master'     # Change to master branch\
 alias b='git checkout -'          # Toggle to last branch
 
 alias g='git $@'
-alias go='git checkout $@'
+alias go='run git checkout $@'
+alias gos='run git checkout $@ && run git submodule update --init --recursive'
 
 # Git core information
 
@@ -411,13 +405,14 @@ function gl {
 
 alias glm='git lg | grep Evan'
 
-alias gg='echo -e "\n------------ Git Branch ------------ \n";git branch;echo -e "\n------------ Git Status ------------ \n";git status;echo -e "\n------------ Git Log --------------- \n";git lg | head -n 12'
+alias gg='echo -e "\n--------------------------------- Git Branch -----------------------------------\n";git branch;echo -e "\n--------------------------------- Git Status -----------------------------------\n";git status;echo -e "\n--------------------------------- Git Log --------------------------------------\n";git lg | head -n 12'
 
-alias ggm='echo -e "\n------------ Git Branch ------------ \n";git branch;echo -e "\n------------ Git Status ------------ \n";git status;echo -e "\n-------- Git Log (Filtered) -------- \n";git lg | grep Evan | head -n 12 '
+alias ggm='echo -e "\n--------------------------------- Git Branch -----------------------------------\n";git branch;echo -e "\n--------------------------------- Git Status -----------------------------------\n";git status;echo -e "\n--------------------------------- Git Log ------------------------------------- \n";git lg | grep Evan | head -n 12 '
 
 alias gd='run git diff'
 alias gds='run git diff --staged'
 alias gdc='run git diff --cached'
+alias gdt='git symbolic-ref -q HEAD | xargs git for-each-ref --format="%(upstream:short)" | xargs -o git diff'
 
 # Git workflow
 
@@ -430,6 +425,8 @@ alias gap='run git add -p'
 alias gf='run git fetch'
 alias gp='run git pull'
 alias gpr='run git pull --rebase'
+alias gprs='run git pull --rebase && run git submodule update --init --recursive'
+
 alias gy='run git yank'
 
 alias gc='run git commit'
@@ -446,6 +443,7 @@ alias gchp='run git checkout -p'
 alias gpush='run git stash'
 alias gpop='run git stash pop'
 
+
 alias grm='run git rebase master'
 alias grom='run git rebase origin/master'
 alias grim='run git rebase -i origin/master'
@@ -453,8 +451,11 @@ alias gromf='gf && grom'
 alias gros='run git rebase origin/staging'
 alias gris='run git rebase -i origin/staging'
 
+alias gmt='run git mergetool'
+
 # Rebase interactive to the origin/branch you are currently upstream to.
 alias grit='git symbolic-ref -q HEAD | xargs git for-each-ref --format="%(upstream:short)" | xargs -o git rebase -i'
+alias glt='git symbolic-ref -q HEAD | xargs git for-each-ref --format="%(upstream:short)" | xargs -o git lg HEAD'
 
 alias gack='run git add . && git commit -m "f"'
 alias grimace='run git add . && git commit -m "f" && git rebase -i master'

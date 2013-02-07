@@ -20,6 +20,10 @@ function is_os {
 function run { echo "[$@]"; $@; }
 
 if is_os "osx" || is_os "linux"; then
+
+  local SERVICES=Library/Services
+
+  # Dot files
   run ln -s $HOME/.files/.gitconfig $HOME/.gitconfig
   run ln -s $HOME/.files/.bash_profile $HOME/.bash_profile
   run ln -s $HOME/.files/.zshrc $HOME/.zshrc
@@ -27,6 +31,9 @@ if is_os "osx" || is_os "linux"; then
   run ln -s $HOME/.files/.dircolors $HOME/.dircolors
   run ln -s $HOME/d/.plan $HOME/.plan
   run ln -s $HOME/d/.notes $HOME/.notes
+
+  # Services
+  run cp -r $HOME/.files/osx/services/*.workflow $HOME/Library/Services/*.workflow
 
   # Backup UserData directory if present
   if [ ! -d $HOME/Library/Developer/Xcode/UserData.bak ] ; then
