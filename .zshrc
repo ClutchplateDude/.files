@@ -271,6 +271,8 @@ if is_os "osx"; then
   function gruno { orange; grun $@; dark; }
   function gruny { yellow; grun $@; dark; }
 
+  alias xcode="open -a XCode $@"
+
 else
 
   function beep { echo -n ''; }
