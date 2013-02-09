@@ -314,7 +314,7 @@ fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
-alias p="${EDITOR} ~/.files/.osx ~/.files/.ubuntu ~/.files/.links ~/.files/.gitconfig ~/.files/.zshrc"
+alias p="${EDITOR} ~/.files/osx/osx.bash ~/.files/links.bash ~/.files/git/gitconfig ~/.files/zsh/zshrc"
 
 alias plan="${EDITOR} ~/.plan"
 alias notes="${EDITOR} ~/.notes"
