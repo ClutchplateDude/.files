@@ -381,8 +381,9 @@ function ssh {
 # Info Alaises
 #──────────────────────────────────────────────────────
 
-alias psx='ps aux $@'
-alias psg='ps aux | grep $@'
+alias psls='ps aux $@'             # List running processes
+alias psg='ps aux | grep $@'      # Search running processes
+alias psgi='ps aux | grep -i $@'  # Case insensitive search
 
 #──────────────────────────────────────────────────────
 # Git aliases

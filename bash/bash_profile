@@ -1,0 +1,333 @@
+# bash_profile
+# ----------------------------------------------------------------------------
+# Created by Evan Moran
+# MIT License
+# This script is for the poor people out there using
+# a vanilla terminal and desperately need something better.
+
+
+# Version
+# ----------------------------------------------------------------------------
+
+SCRIPT_VERSION="v1.0"
+
+echo
+echo ".bash_profile ($SCRIPT_VERSION)"
+echo
+
+# OSX / WINDOWS Compatability
+# ----------------------------------------------------------------------------
+
+# Supported arguments: "windows", "osx"
+function is_os {
+  if [ $1 = "windows" ] && [ "$OS" = "Windows_NT" ]; then
+    return 0
+  elif [ $1 = "osx" ] && [ ! "$OS" = "Windows_NT" ]; then
+    return 0
+  fi
+  return 1
+}
+
+# Configure with: ~/.location
+function is_location {
+  if [ "`cat ~/.location | grep $1`" = $1 ]; then
+    return 0
+  fi
+  return 1
+}
+
+# Create missing .location file if it doesn't exist
+if [ ! -f ~/.location ]; then
+  echo "home" > ~/.location
+fi
+
+# ----------------------------------------------------------------------------
+# Path and Location
+# ----------------------------------------------------------------------------
+
+# Print operating system
+echo -n "  OS:       "
+
+# Bind for Windows
+if is_os "windows"; then
+  echo "Windows"
+  export USER=$USERNAME                 # Make consitent with OSX
+  export PATH=$PATH
+  export PATH=~/bin:$PATH               # Cross platform bin
+  export PATH=~/bin/windows:$PATH       # Windows bin
+  # export EDITOR="vim"
+
+# Bind for OSX
+elif is_os "osx"; then
+  echo "OSX"
+  # Brew requires /usr/local/bin and /usr/local/sbin to be ahead of /usr/bin
+  export PATH=/usr/local/bin:$PATH
+  export PATH=/usr/local/sbin:$PATH
+
+  # Path for node
+  export NODE_PATH=/usr/local/lib/node_modules
+
+  export PATH=~/bin:$PATH               # Cross platform bin
+  export PATH=~/bin/osx:$PATH           # OSX bin
+
+  # export EDITOR="sub -w"
+  # export DIFF=""
+
+  if [ -d $HOME/.rbenv ]; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+  fi
+fi
+
+echo "  User:     $USER"
+
+# ----------------------------------------------------------------------------
+# Prompt
+# ----------------------------------------------------------------------------
+
+function git_branch {
+   (echo -n "*"; git branch 2> /dev/null | sed -e '/^[^*]/d') | sed -e 's/\*\* \(.*\)/*\1/'
+}
+
+function heroku_account {
+   (echo -n "^"; heroku accounts 2> /dev/null | sed -e '/^[^*]/d') | sed -e 's/\^\* \(.*\)/\^\1/'
+}
+
+# Define colors
+function define_colors {
+  local N=30
+  local COLOR
+  for COLOR in BLACK RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+    export COLOR_${COLOR}="\033[0;${N}m"
+    export COLOR_${COLOR}_LIGHT="\033[1;${N}m"
+    export PROMPT_COLOR_${COLOR}="\[\033[0;${N}m\]"
+    export PROMPT_COLOR_${COLOR}_LIGHT="\[\033[1;${N}m\]"
+    N=$(($N + 1))
+  done
+
+  COLOR_NONE="\033[0m"
+  COLOR_COMMENT=$COLOR_BLACK
+  PROMPT_COLOR_NONE="\[${COLOR_NONE}\]"
+  PROMPT_COLOR_GIT=$PROMPT_COLOR_YELLOW
+  PROMPT_COLOR_USER=$PROMPT_COLOR_CYAN
+  PROMPT_COLOR_HOST=$PROMPT_COLOR_CYAN
+  PROMPT_COLOR_PATH=$PROMPT_COLOR_GREEN
+  PROMPT_COLOR_HISTORY=$PROMPT_COLOR_RED
+  PROMPT_COLOR_TIME=$PROMPT_COLOR_MAGENTA
+
+  COLOR_BOLD="\033[1m"
+  PROMPT_COLOR_BOLD="\[${COLOR_BOLD}\]"
+
+  COLOR_UNDERLINE="\033[4m"
+  PROMPT_COLOR_UNDERLINE="\[${COLOR_UNDERLINE}\]"
+}
+define_colors
+
+# Print colors to test
+alias print_colors="echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}COLOR_WHITE\t${COLOR_WHITE_LIGHT}COLOR_WHITE_LIGHT\";echo -e \"${COLOR_BLUE}COLOR_BLUE\t${COLOR_BLUE_LIGHT}COLOR_BLUE_LIGHT\";echo -e \"${COLOR_GREEN}COLOR_GREEN\t${COLOR_GREEN_LIGHT}COLOR_GREEN_LIGHT\";echo -e \"${COLOR_CYAN}COLOR_CYAN\t${COLOR_CYAN_LIGHT}COLOR_LIGHT_CYAN\";echo -e \"${COLOR_RED}COLOR_RED\t${COLOR_RED_LIGHT}COLOR_RED_LIGHT\";echo -e \"${COLOR_MAGENTA}COLOR_MAGENTA\t${COLOR_MAGENTA_LIGHT}COLOR_MAGENTA_LIGHT\";echo -e \"${COLOR_YELLOW}COLOR_YELLOW\t${COLOR_YELLOW_LIGHT}COLOR_YELLOW_LIGHT\";echo -e \"${COLOR_BLACK}COLOR_BLACK\t${COLOR_BLACK_LIGHT}COLOR_BLACK_LIGHT\""
+
+# user@host path git
+PS1="${PROMPT_COLOR_USER}\u${PROMPT_COLOR_NONE}@${PROMPT_COLOR_HOST}\h${PROMPT_COLOR_NONE} ${PROMPT_COLOR_PATH}\w${PROMPT_COLOR_NONE} ${PROMPT_COLOR_GIT}\$(git_branch)${PROMPT_COLOR_NONE}\$ "
+
+# ----------------------------------------------------------------------------
+# Terminal aliases
+# ----------------------------------------------------------------------------
+
+if is_os "osx"; then
+
+  # This took a really long time to write!
+  function terminal_theme {
+    TERMINAL_THEME=$1; if [ -z "$TERMINAL_THEME" ]; then TERMINAL_THEME="SolarizedDark"; fi
+    osascript -e "tell application \"Terminal\" to set current settings of window 1 to settings set \"$TERMINAL_THEME\""
+  }
+
+  function light { terminal_theme "SolarizedLight"; }
+  function dark { terminal_theme "SolarizedDark"; }
+  function blue { dark; }
+  function white { light; }
+  function red { dark; osascript -e "tell application \"Terminal\" to set background color of front window to {6885, 0, 765}"; }
+  function green { dark; osascript -e "tell application \"Terminal\" to set background color of front window to {3060, 6630, 3570}"; }
+  function purple { dark; osascript -e "tell application \"Terminal\" to set background color of front window to {5100, 3060, 7395}"; }
+  function cyan { dark; osascript -e "tell application \"Terminal\" to set background color of front window to {0, 7140, 7395}"; }
+  function orange { dark; osascript -e "tell application \"Terminal\" to set background color of front window to {7650, 4080, 255}"; }
+  function yellow { dark; osascript -e "tell application \"Terminal\" to set background color of front window to {7650, 7650, 0}"; }
+
+  # Run -- Echo your command as it is run
+  function comment { echo -e "${COLOR_COMMENT}[$@]${COLOR_NONE}"; }
+  function run { comment $@; $@; }
+
+  # Beep
+  function beep { echo -n ''; }
+
+else
+
+  function beep { echo -n ''; }
+
+fi
+
+
+# ----------------------------------------------------------------------------
+# Bash Aliases
+# ----------------------------------------------------------------------------
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
+alias p='sub ~/.files/.osx.sh ~/.files/.links.sh ~/.files/.gitconfig ~/.files/.bash_profile'
+
+alias hlist='history $@'
+alias hclear='history -c'             # history clear
+alias hgrep='history | grep -i $@'   # history grep
+
+# ----------------------------------------------------------------------------
+# Navigation Aliases
+# ----------------------------------------------------------------------------
+
+alias l='ls -lhG $@'
+alias la='ls -lhAG $@'
+alias ls="ls -G $@"
+alias ls="ls -G $@"
+alias l.='ls -adFG .*'
+
+
+alias s='cd ..' # The enemy gate is SOUTH
+
+alias asdf='clear;'
+alias cl='clear; ls -lhG $@'
+alias cla='clear; ls -lhAG $@'
+
+# ----------------------------------------------------------------------------
+# Location aliases
+#
+# Edit ~/.location to configure
+# ----------------------------------------------------------------------------
+
+echo -n "  Aliases: "
+
+##############################
+# Home Aliases
+##############################
+
+if is_location "home"; then
+  echo -n " @Home"
+
+  # Define aliases just for your home environment
+  # alias d='cd ~/development/$@'
+
+##############################
+# Work Aliases
+##############################
+
+elif is_location "work"; then
+  echo -n " @Work"
+
+  # Define aliases just for your work environment
+  # alias w='cd ~/work/$@'
+
+fi
+
+echo # Newline
+
+# ----------------------------------------------------------------------------
+# Git aliases
+# ----------------------------------------------------------------------------
+
+alias m='git checkout master'     # Change to master branch\
+alias b='git checkout -'          # Toggle to last branch
+alias go='git checkout $@'        # Switch branches in style
+alias gpr='run git pull --rebase'           # Prounanced 'jeeper'
+alias gprs='git pull --rebase && git submodule update --init --recursive'   # Pronounced 'jeepers'
+
+alias gb='run git branch'
+
+alias gs='run git status'
+function gl {
+  comment "git lg | head -n ${1:-20}"
+  git lg | head -n ${1:-20}
+}
+
+alias gg='echo -e "\n------------ Git Branch ------------ \n";git branch;echo -e "\n------------ Git Status ------------ \n";git status;echo -e "\n------------ Git Log -------------- \n";git lg | head -n 12'
+
+alias gd='run git diff'
+alias gds='run git diff --staged'
+alias gdc='run git diff --cached'
+
+alias ga='run git add'
+alias gap='run git add -p'
+
+alias gf='run git fetch'
+alias gp='run git pull'
+
+alias gc='run git commit'
+alias gcm='run git commit -m "$@"'
+alias gca='run git commit --amend'
+
+alias gch='run git checkout'
+alias gchp='run git checkout -p'
+
+alias gpush='run git stash'
+alias gpop='run git stash pop'
+
+alias grm='run git rebase master'
+alias grom='run git rebase origin/master'
+alias grim='run git rebase -i origin/master'
+alias gros='run git rebase origin/staging'
+alias gris='run git rebase -i origin/staging'
+
+# Node aliases
+# ----------------------------------------------------------------------------
+
+alias n='runl node $@'
+alias no='runp nodemon src/app.js'
+alias np='sub package.json'
+
+alias fs='runl foreman start -p 3000 $@'
+alias fl='run cat Procfile'
+alias fl='sub Procfile'
+
+# Cake aliases
+# ----------------------------------------------------------------------------
+
+alias c='cake $@'
+
+# ----------------------------------------------------------------------------
+# Heroku aliases
+# ----------------------------------------------------------------------------
+
+alias h='run heroku $@'
+
+alias hc='run heroku config $@'
+alias hca='run heroku config:add $@'
+alias hcr='run heroku config:remove $@'
+
+alias hk='run heroku keys $@'
+alias hka='run heroku keys:add $@'
+alias hkr='run heroku keys:remove $@'
+
+alias hl='run heroku logs $@'
+alias hlt='run heroku logs --tail $@'
+function hln {
+  run heroku logs -n ${1:-20}
+}
+
+alias ha='run heroku accounts'
+alias has='run heroku accounts:set $@'
+
+# Rails aliases
+# ----------------------------------------------------------------------------
+
+alias rtest='growl rake'
+alias rmig='growl runl rake db:migrate'
+alias rmigtest='growl runl rake db:migrate RAILS_ENV=test'
+alias roll='growl run rake db:rollback'
+alias rsd='runl rails server --debugger'
+alias rs='run rails server'
+
+# Administration aliases
+# ----------------------------------------------------------------------------
+
+alias psx='ps aux $@'             # Shortcut for ps aux
+alias psg='ps aux | grep $@'      # Search running processes for regexp
+alias psgi='ps aux | grep -i $@'  # Case insensitive search
+
+echo
+
