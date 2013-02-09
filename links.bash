@@ -24,11 +24,11 @@ if is_os "osx" || is_os "linux"; then
   local SERVICES=Library/Services
 
   # Dot files
-  run ln -s $HOME/.files/.gitconfig $HOME/.gitconfig
-  run ln -s $HOME/.files/.bash_profile $HOME/.bash_profile
-  run ln -s $HOME/.files/.zshrc $HOME/.zshrc
-  run ln -s $HOME/.files/.ackrc $HOME/.ackrc
-  run ln -s $HOME/.files/.dircolors $HOME/.dircolors
+  run ln -s $HOME/.files/git/gitconfig $HOME/.gitconfig
+  run ln -s $HOME/.files/bash/bash_profile $HOME/.bash_profile
+  run ln -s $HOME/.files/zsh/zshrc $HOME/.zshrc
+  run ln -s $HOME/.files/ackrc $HOME/.ackrc
+  run ln -s $HOME/.files/dircolors/dircolors $HOME/.dircolors
   run ln -s $HOME/d/.plan $HOME/.plan
   run ln -s $HOME/d/.notes $HOME/.notes
 

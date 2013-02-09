@@ -1,15 +1,15 @@
-#──────────────────────────────────────────────────────
-# Oh my zsh
-#──────────────────────────────────────────────────────
+# .zshrc
+#-----------------------------------------------------------------------------
 
+# Oh my zsh
+#-----------------------------------------------------------------------------
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.files/.oh-my-zsh
 
-#──────────────────────────────────────────────────────
 # Theme
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
-ZSH_THEME="../../.king"
+ZSH_THEME="../../zsh/king"
 
 alias king='sudo zsh'
 
@@ -17,9 +17,8 @@ alias king='sudo zsh'
 # TODO: If you are in a git repository, turn into a bishop? Dropbox/Google drive/Skydrive Rook?
 function chess { echo "\n   ♔  ♕  ♖  ♗  ♘  ♙    ♚  ♛  ♜  ♝  ♞  ♟\n" }
 
-#──────────────────────────────────────────────────────
 # Settings
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -27,17 +26,15 @@ function chess { echo "\n   ♔  ♕  ♖  ♗  ♘  ♙    ♚  ♛  ♜  ♝  
 # Comment this out to disable weekly auto-update checks
 # DISABLE_AUTO_UPDATE="true"
 
-#──────────────────────────────────────────────────────
 # Plugins
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 plugins=(brew)
 
 source $ZSH/oh-my-zsh.sh
 
-#──────────────────────────────────────────────────────
 # OS Detection
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 # Supported arguments: "windows", "osx", "linux"
 function is_os {
   if [ -z "$OS" ]; then
@@ -67,9 +64,8 @@ if [ ! -f ~/.location ]; then
   echo "home" > ~/.location
 fi
 
-#──────────────────────────────────────────────────────
 # Path and Location Detection
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 # Print operating system
 echo # Newline
@@ -143,9 +139,8 @@ fi
 
 echo "  User:     $USER"
 
-#──────────────────────────────────────────────────────
 # Prompt
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 function git_branch {
    (echo -n "*"; git branch 2> /dev/null | sed -e '/^[^*]/d') | sed -e 's/\*\* \(.*\)/*\1/'
@@ -186,9 +181,8 @@ function define_colors {
 
 alias print_colors="define_colors; echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \"${COLOR_WHITE}COLOR_WHITE\t${COLOR_WHITE_LIGHT}COLOR_WHITE_LIGHT\";echo -e \"${COLOR_BLUE}COLOR_BLUE\t${COLOR_BLUE_LIGHT}COLOR_BLUE_LIGHT\";echo -e \"${COLOR_GREEN}COLOR_GREEN\t${COLOR_GREEN_LIGHT}COLOR_GREEN_LIGHT\";echo -e \"${COLOR_CYAN}COLOR_CYAN\t${COLOR_CYAN_LIGHT}COLOR_LIGHT_CYAN\";echo -e \"${COLOR_RED}COLOR_RED\t${COLOR_RED_LIGHT}COLOR_RED_LIGHT\";echo -e \"${COLOR_MAGENTA}COLOR_MAGENTA\t${COLOR_MAGENTA_LIGHT}COLOR_MAGENTA_LIGHT\";echo -e \"${COLOR_YELLOW}COLOR_YELLOW\t${COLOR_YELLOW_LIGHT}COLOR_YELLOW_LIGHT\";echo -e \"${COLOR_BLACK}COLOR_BLACK\t${COLOR_BLACK_LIGHT}COLOR_BLACK_LIGHT\""11
 
-#──────────────────────────────────────────────────────
 # Terminal aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 # SOLARIZED        TERMCOL     XTERM/HEX     HEX       16/8   RGB           HSB           L*A*B        LIGHT          DARK
 # --------------   ---------   -----------   -------   ----   -----------   -----------   ----------   ------------   ------------
@@ -218,9 +212,8 @@ alias print_colors="define_colors; echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \
 # darkbasecyan     n/a                                          0  28  29                              ---            bg
 # darkbasepurple   n/a                                         20  12  29                              ---            bg
 
-#──────────────────────────────────────────────────────
 # Aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 if is_os "osx"; then
 
@@ -296,9 +289,8 @@ else
 
 fi
 
-#──────────────────────────────────────────────────────
 # One-time Aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 if is_os "osx"; then
   function onetime_setup {
@@ -317,9 +309,8 @@ if is_os "osx"; then
   }
 fi
 
-#──────────────────────────────────────────────────────
 # Config Aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
@@ -330,9 +321,9 @@ alias notes="${EDITOR} ~/.notes"
 
 alias reload="pushd ${HOME}/.files > /dev/null; git pull; source ${HOME}/.files/.zshrc; popd > /dev/null"
 
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 # ls colors
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 export CLICOLOR=1
 export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_OPTIONS='--color=auto'
@@ -355,9 +346,8 @@ elif is_os 'linux'; then
   alias la='run ls --color -lhAF $@'    # Full view, showing hidden
 fi
 
-#──────────────────────────────────────────────────────
 # Navigation Alaises
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 alias hlist='history $@'
 alias hclear='history -c'             # history clear
@@ -377,17 +367,15 @@ function ssh {
   runr /usr/bin/ssh "$@"
 }
 
-#──────────────────────────────────────────────────────
 # Info Alaises
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 alias psls='ps aux $@'             # List running processes
 alias psg='ps aux | grep $@'      # Search running processes
 alias psgi='ps aux | grep -i $@'  # Case insensitive search
 
-#──────────────────────────────────────────────────────
 # Git aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 alias m='git checkout master'     # Change to master branch\
 alias b='git checkout -'          # Toggle to last branch
@@ -478,14 +466,12 @@ alias git_show_file_stats_between_branches='git '
 # Visual diffs in OSX using built in opendiff
 
 
-#──────────────────────────────────────────────────────
 # Python aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 alias pt='py.test $@'
 
-#──────────────────────────────────────────────────────
 # Node aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 alias no='runp node-dev src/app.js'
 alias np='sub package.json'
@@ -494,30 +480,26 @@ alias fs='runl foreman start -p 3000 $@'
 alias fl='run cat Procfile'
 alias fl='sub Procfile'
 
-#──────────────────────────────────────────────────────
 # Cake aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 alias c='cake $@'
 
-#──────────────────────────────────────────────────────
 # Mongo aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 alias mo='runl mocha $@'
 alias mow='runl mocha --watch $@'
 alias t='mocha'
 alias tw='mocha --reporter min --watch'
 
-#──────────────────────────────────────────────────────
 # Mongo aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 alias db2='runy mongo localhost:4000/database'
 
-#──────────────────────────────────────────────────────
 # Ansible aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 alias a="${EDITOR} ${HOME}/.ansible_hosts"
 alias an='run ansible $@'
@@ -529,9 +511,8 @@ alias framdinstall='run ansible-playbook ~/framd/ansible/framd.all.yml -t instal
 alias framddbinstall='run ansible-playbook ~/framd/ansible/framd.db.yml -t install $@'
 alias framdwebinstall='run ansible-playbook ~/framd/ansible/framd.web.yml -t install $@'
 
-#──────────────────────────────────────────────────────
 # EC2 aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 # EC2FILTER = "awk -v OFS='    ' -F'\t' '{print $2, $3, $6, $4}'"
 
 EC2FILTER="grep INSTANCE | awk -v OFS='    ' -F'\\\\t' '{print \$2, \$3, \$6, \$4}'"
@@ -548,9 +529,9 @@ alias estop="run ec2-stop-instances $@"
 alias estart="run ec2-start-instances $@"
 alias erun='run ec2-run-instances ami-137bcf7a -g sg-22f5824a -k evan_sphinx --instance-type t1.micro --region us-east-1 $@'
 alias ermall='for i in `ec2din | grep running | cut -f2`; do ec2kill $i; done'
-#──────────────────────────────────────────────────────
+
 # Heroku aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 alias h='run heroku $@'
 
@@ -572,9 +553,8 @@ function hln {
 alias ha='run heroku accounts'
 alias has='run heroku accounts:set $@'
 
-#──────────────────────────────────────────────────────
 # Rails aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 alias rtest='growl rake'
 alias rmig='growl runl rake db:migrate'
@@ -583,29 +563,24 @@ alias roll='growl run rake db:rollback'
 alias rsd='runl rails server --debugger'
 alias rs='run rails server'
 
-#──────────────────────────────────────────────────────
 # OPS Aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 alias digs='dig $@ +nostats +nocomments +nocmd'
 
-#──────────────────────────────────────────────────────
 # Unsorted
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 alias pg='run ps axw | grep -i'
 alias plg='run port list | grep -i'
 
-#──────────────────────────────────────────────────────
 # Location aliases
-#
+#-----------------------------------------------------------------------------
 # Edit ~/.location to configure
-#──────────────────────────────────────────────────────
 
 echo -n "  Aliases: "
 
-#──────────────────────────────────────────────────────
 # Home Aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 function pidOf {
   ps aux | grep "$1" | grep -v grep | tail -n 1 | awk '{ print $2; }'
@@ -639,28 +614,25 @@ if is_location "home"; then
   alias frs='cd ~/framd/web/src/$@'
   alias frp='cd ~/framd/prototype/$@'
 
-#──────────────────────────────────────────────────────
 # Work Aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 elif is_location "work"; then
   echo -n " @Work"
 
-#──────────────────────────────────────────────────────
 # Server Aliases
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
 
 elif is_location "server"; then
-
   echo -n " @Server"
 
 else
   echo -n " @Unknown (no aliases bound)"
 fi
 
-#──────────────────────────────────────────────────────
 # End
-#──────────────────────────────────────────────────────
+#-----------------------------------------------------------------------------
+
 # Two newlines
 echo
 echo
