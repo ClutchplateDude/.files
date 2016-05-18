@@ -43,6 +43,7 @@ echo "Important: '/usr/local/bin' must be before '/usr/bin' in path"
 
 brew_install git
 brew_install git-extras
+brew_install tig
 brew_install zsh
 brew_install nodejs
 brew_install mongodb
@@ -55,6 +56,7 @@ brew_install unrar
 brew_install tree
 brew_install nmap
 brew_install coreutils  # gnu version of utility (used for dircolors)
+brew_install elixir
 
 echo "Install npm (with curl)"
 (which npm > /dev/null) || (curl http://npmjs.org/install.sh | sh)
@@ -145,11 +147,20 @@ defaults write com.apple.dock autohide -bool YES;
 echo 'Dock: Put on right'
 defaults write com.apple.dock orientation -string right;
 
+echo 'Dock: Remove the auto-hiding delay'
+defaults write com.apple.dock autohide-delay -float 0
+
+echo 'Dock: Speed up the animation when hiding and showing'
+defaults write com.apple.dock autohide-time-modifier -float 0.2
+
 echo 'Dock: Set the icon size to 32 pixels'
 defaults write com.apple.dock tilesize -int 32
 
 echo 'Show status bar in Finder'
 defaults write com.apple.finder ShowStatusBar -bool true
+
+echo 'Show path bar in Finder'
+defaults write com.apple.finder ShowPathbar -bool true
 
 echo 'Disable shadow in screenshots'
 defaults write com.apple.screencapture disable-shadow -bool true
@@ -177,10 +188,16 @@ echo 'Prevent Time Machine from prompting to use new hard drives as backup volum
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
 echo 'Faster key repeat rate'
-defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain KeyRepeat -int 0
+
+echo 'Mission Control: Speed up animations'
+defaults write com.apple.dock expose-animation-duration -float 0.1
+
+echo 'Don’t automatically rearrange Spaces based on most recent use'
+defaults write com.apple.dock mru-spaces -bool false
 
 echo 'Kill affected applications'
-for app in Xcode Safari Finder Dock Mail; do killall "$app"; done
+for app in Xcode Safari Finder Dock Mail Dashboard; do killall "$app"; done
 
 
 

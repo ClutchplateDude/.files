@@ -40,5 +40,5 @@ if is_os "osx" || is_os "linux"; then
     echo "[Backing up $HOME/Library/Developer/Xcode/UserData]"
     mv $HOME/Library/Developer/Xcode/UserData $HOME/Library/Developer/Xcode/UserData.bak
   fi
-  run ln -s $HOME/.files/.xcode/UserData $HOME/Library/Developer/Xcode/UserData
+  run ln -s $HOME/.files/osx/xcode/UserData $HOME/Library/Developer/Xcode/UserData
 fi

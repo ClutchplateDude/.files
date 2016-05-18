@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>IDECodeSnippetCompletionPrefix</key>
-	<string>zpbanner</string>
+	<string>cp</string>
 	<key>IDECodeSnippetCompletionScopes</key>
 	<array>
 		<string>ClassInterfaceMethods</string>
@@ -18,7 +18,7 @@
 	<key>IDECodeSnippetLanguage</key>
 	<string>Xcode.SourceCodeLanguage.Objective-C-Plus-Plus</string>
 	<key>IDECodeSnippetTitle</key>
-	<string>Zillow Property Banner</string>
+	<string>Snippet: Property Comment</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

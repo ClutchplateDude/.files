@@ -93,6 +93,9 @@ elif is_os "osx"; then
   # Path for npm
   export PATH=/usr/local/share/npm/bin:$PATH
 
+  # Path for cabal
+  export PATH=~/.cabal/bin:$PATH
+
   # Todo: Fix path to be LOCATION based.
   export PATH=/usr/local/Cellar/git/1.7.8/bin:$PATH
   export PATH=/usr/local/share/python:$PATH
@@ -109,6 +112,9 @@ elif is_os "osx"; then
   # Paths for ansible
   export ANSIBLE_HOSTS="${HOME}/.ansible_hosts"
   export ANSIBLE_TRANSPORT="ssh"
+
+  # Path for google app engine
+  export PATH="$HOME/bin/google_appengine:$PATH"
 
   # Paths for EC2
 
@@ -381,14 +387,15 @@ alias m='git checkout master'     # Change to master branch\
 alias b='git checkout -'          # Toggle to last branch
 
 alias g='git $@'
-alias go='run git checkout $@'
-alias gos='run git checkout $@ && run git submodule update --init --recursive'
+alias cdg='run git checkout $@'
 
 # Git core information
 
 alias gb='run git branch'
 # alias_echo 'gs' 'git status'
 alias gs='run git status'
+alias ts='run tig status'
+alias tl='run tig'
 function gl {
   comment "git lg | head -n ${1:-20}"
   git lg | head -n ${1:-20}
@@ -399,6 +406,8 @@ alias glm='git lg | grep Evan'
 alias gg='echo -e "\n--------------------------------- Git Branch -----------------------------------\n";git branch;echo -e "\n--------------------------------- Git Status -----------------------------------\n";git status;echo -e "\n--------------------------------- Git Log --------------------------------------\n";git lg | head -n 12'
 
 alias ggm='echo -e "\n--------------------------------- Git Branch -----------------------------------\n";git branch;echo -e "\n--------------------------------- Git Status -----------------------------------\n";git status;echo -e "\n--------------------------------- Git Log ------------------------------------- \n";git lg | grep Evan | head -n 12 '
+
+alias gh='run git lg | head -n 12'
 
 alias gd='run git diff'
 alias gds='run git diff --staged'
@@ -490,7 +499,8 @@ alias c='cake $@'
 
 alias mo='runl mocha $@'
 alias mow='runl mocha --watch $@'
-alias t='mocha'
+alias t='mocha $@'
+alias tp='mocha-phantomjs $@'
 alias tw='mocha --reporter min --watch'
 
 # Mongo aliases
@@ -567,6 +577,11 @@ alias rs='run rails server'
 #-----------------------------------------------------------------------------
 alias digs='dig $@ +nostats +nocomments +nocmd'
 
+
+# Elixir aliases
+#-----------------------------------------------------------------------------
+alias e='elixir $@'
+
 # Unsorted
 #-----------------------------------------------------------------------------
 
@@ -613,6 +628,8 @@ if is_location "home"; then
   alias frt='cd ~/framd/web/test/$@'
   alias frs='cd ~/framd/web/src/$@'
   alias frp='cd ~/framd/prototype/$@'
+  alias fw='cd ~/framd-web-server/$@'
+  alias fa='cd ~/framd-api-server/$@'
 
 # Work Aliases
 #-----------------------------------------------------------------------------

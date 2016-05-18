@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>iic</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>ClassImplementation</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>- (instancetype)initWithFrame:(CGRect)frame;
+{
+    if(self = [super initWithFrame:frame])
+        [self commonInit];
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder;
+{
+    if(self = [super initWithCoder:aDecoder])
+        [self commonInit];
+    return self;
+}
+
+- (void)commonInit;
+{
+    &lt;#statements#&gt;
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>F0D236DB-AD0B-48D8-BFD3-231E63357323</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Objective-C</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>Snippet: Init Common</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

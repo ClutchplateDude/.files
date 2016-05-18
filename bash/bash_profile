@@ -329,5 +329,10 @@ alias psx='ps aux $@'             # Shortcut for ps aux
 alias psg='ps aux | grep $@'      # Search running processes for regexp
 alias psgi='ps aux | grep -i $@'  # Case insensitive search
 
+
+# Sublime
+
+export EDITOR="sub -w"
+
 echo
 
