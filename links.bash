@@ -31,9 +31,13 @@ if is_os "osx" || is_os "linux"; then
   run ln -s $HOME/.files/dircolors/dircolors $HOME/.dircolors
   run ln -s $HOME/d/.plan $HOME/.plan
   run ln -s $HOME/d/.notes $HOME/.notes
+  run ln -s $HOME/d/proj $HOME/proj
 
   # Services
   run cp -r $HOME/.files/osx/services/*.workflow $HOME/Library/Services/*.workflow
+
+  # Sublime
+  run ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/sub
 
   # Backup UserData directory if present
   if [ ! -d $HOME/Library/Developer/Xcode/UserData.bak ] ; then

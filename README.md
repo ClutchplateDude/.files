@@ -22,6 +22,12 @@ Getting started? This is a simple list for people who need to be up and running 
     SolarizedDark.theme   # OSX terminal theme. Must install Total Terminal
     SolarizedLight.theme  # OSX terminal theme. Must install Total Terminal
 
+## Personal Install Steps'
+
+1. Install homebrew
+2. Install zsh
+
+
 ## Special Thanks
 
 My config wouldn't be anything without standing on the shoulders of giants.

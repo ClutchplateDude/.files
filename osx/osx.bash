@@ -11,6 +11,18 @@ function brew_install {
   (run brew list | grep $1 > /dev/null) || (run brew install $1)
 }
 
+function brew_cask_install {
+  echo -n "Install $1 (with brew cask): "
+  (run brew list | grep $1 > /dev/null) && echo "Already Installed"
+  (run brew list | grep $1 > /dev/null) || (run brew cask install $1)
+}
+
+function brew_tap {
+  echo -n "Install $1 (with brew tap): "
+  (run brew list | grep $1 > /dev/null) && echo "Already Installed"
+  (run brew list | grep $1 > /dev/null) || (run brew tap $1)
+}
+
 function npm_install {
   echo -n "Install $1 (with npm): "
   (run npm list -g | grep $1 > /dev/null) && echo "Already Installed"
@@ -18,10 +30,8 @@ function npm_install {
 }
 
 ##############################################################
-# Install zshrc
+# Install links
 ##############################################################
-echo 'Install zshrc (git clone)'
-run git clone git://github.com/evanmoran/.files.git "${HOME}/.files"
 run "${HOME}/.files/.links"
 
 # Update submodules
@@ -34,7 +44,7 @@ run "${HOME}/.files/.links"
 sudo chsh -s `which zsh` `whoami`
 
 ##############################################################
-# Install apps
+# Install commandline apps
 ##############################################################
 
 echo "Install brew (with curl): "
@@ -47,6 +57,7 @@ brew_install tig
 brew_install zsh
 brew_install nodejs
 brew_install mongodb
+brew_install coreutils  # gnu version of utility (used for dircolors)
 brew_install python
 brew_install python3
 brew_install ack
@@ -55,11 +66,27 @@ brew_install p7zip
 brew_install unrar
 brew_install tree
 brew_install nmap
-brew_install coreutils  # gnu version of utility (used for dircolors)
-brew_install elixir
+brew_install wget
+brew_install llvm
 
-echo "Install npm (with curl)"
-(which npm > /dev/null) || (curl http://npmjs.org/install.sh | sh)
+##############################################################
+# Install osx apps
+##############################################################
+brew_cask_install sublime3
+brew_cask_install racket
+brew_cask_install vim
+# for mit-scheme
+brew_tap homebrew/x11
+brew_cask_install xquartz
+brew_cask_install mit-scheme
+# better scheme repl support
+brew_install rlwrap
+
+##############################################################
+# Install oh-my-zsh
+##############################################################
+echo "Install oh-my-zsh (with curl): "
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 ##############################################################
 # Python, virtualenv, virtualenvwrapper
@@ -78,18 +105,6 @@ npm_install "pygments"              # Syntax highlighting used by docco
 npm_install "docco"                 # Documentation generator
 npm_install "groc"                  # Documentation generator
 
-echo "Install plugin to support multiple heroku accounts"
-echo "Note: Add accounts to heroku with: heroku accounts:add <name>"
-heroku plugins:install git://github.com/ddollar/heroku-accounts.git
-
-##############################################################
-# Install Ansible
-##############################################################
-echo 'Install ansible (make install)'
-run git clone git://github.com/ansible/ansible.git "${HOME}/bin/ansible"
-run sudo make -C "${HOME}/bin/ansible" install
-run sudo rm -rf "${HOME}/bin/ansible"
-
 ##############################################################
 # Setup XCode Themes
 ##############################################################
@@ -104,41 +119,44 @@ defaults write com.apple.Xcode XCShowUndoPastSaveWarning NO
 # Setup OSX GUI
 ##############################################################
 
-echo 'Show hidden files in finder'
+echo 'General: Expanded save as dialogs by default'
+defaults write -g NSNavPanelExpandedStateForSaveMode -bool YES
+
+echo 'General; Remove accounts from login options'
+sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add shortname1 shortname2 shortname3
+
+echo 'General: Faster key repeat rate'
+defaults write NSGlobalDomain KeyRepeat -int 0
+
+echo 'Finder: Show hidden files'
 defaults write com.apple.Finder AppleShowAllFiles YES
 
-echo 'Enable tabing through all controls (including buttons)'
+echo 'Finder: Enable tabing through all controls (including buttons)'
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-echo 'Automatically open a new Finder window when a volume is mounted'
+echo 'Finder: Automatically open a new Finder window when a volume is mounted'
 defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
 defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
 
-echo 'Display full path in Finder window title'
+echo 'Finder: Display full path in window title'
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
-echo 'Avoid creating .DS_Store files on network volumes'
+echo 'Finder: Avoid creating .DS_Store files on network volumes'
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
-echo 'Show all file extensions'
+echo 'Finder: Show all file extensions'
 defaults write -g AppleShowAllExtensions -bool YES;
 
-echo 'Disable the warning when changing a file extension'
+echo 'Finder: Disable the warning when changing a file extension'
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
-echo 'Enable snap-to-grid for desktop icons'
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+# echo 'Desktop: Enable snap-to-grid for icons'
+# /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 
-echo 'Disable desktop icons entirely'
+echo 'Desktop: Disable icons entirely'
 defaults write com.apple.finder CreateDesktop -bool false
 
-echo 'Expanded save as dialogs by default'
-defaults write -g NSNavPanelExpandedStateForSaveMode -bool YES
-
-echo 'Remove accounts from login options'
-sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add shortname1 shortname2 shortname3
-
-echo 'Development menu in Safari'
+echo 'Safari: Development menu in Safari'
 defaults write com.apple.safari IncludeDebugMenu -bool YES
 
 echo 'Dock: Auto hide on'
@@ -153,30 +171,33 @@ defaults write com.apple.dock autohide-delay -float 0
 echo 'Dock: Speed up the animation when hiding and showing'
 defaults write com.apple.dock autohide-time-modifier -float 0.2
 
-echo 'Dock: Set the icon size to 32 pixels'
-defaults write com.apple.dock tilesize -int 32
+echo 'Dock: Set the icon size'
+defaults write com.apple.dock tilesize -int 55
 
-echo 'Show status bar in Finder'
+echo 'Finder: Show status bar'
 defaults write com.apple.finder ShowStatusBar -bool true
 
-echo 'Show path bar in Finder'
+echo 'Finder: Show path bar'
 defaults write com.apple.finder ShowPathbar -bool true
 
-echo 'Disable shadow in screenshots'
+echo 'Finder: Disable shadow in screenshots'
 defaults write com.apple.screencapture disable-shadow -bool true
 
-echo 'Only use UTF-8 in Terminal.app'
+echo 'Finder: Save screenshots to png'
+defaults write com.apple.screencapture type -string “png”
+
+echo 'Terminal: Only use UTF-8 in Terminal.app'
 defaults write com.apple.terminal StringEncodings -array 4
 
-echo 'Create Terminal shortcuts for switching tabs Chrome style (opt+cmd+right/left)'
+echo 'Terminal: Create Terminal shortcuts for switching tabs Chrome style (opt+cmd+right/left)'
 defaults write com.apple.Terminal NSUserKeyEquivalents -dict-add "Select Next Tab" "~@→"
 defaults write com.apple.Terminal NSUserKeyEquivalents -dict-add "Select Previous Tab" "~@←"
 
-echo 'Hot Corners: Bottom right screen corner → Desktop'
-defaults write com.apple.dock wvous-br-corner -int 4
+echo 'Hot Corners: Bottom right screen corner → Show Current Windows'
+defaults write com.apple.dock wvous-br-corner -int 3
 defaults write com.apple.dock wvous-br-modifier -int 0
 
-echo 'Hot Corners: Bottom left screen corner → Mission Control'
+echo 'Hot Corners: Bottom left screen corner → Show All Windows'
 defaults write com.apple.dock wvous-bl-corner -int 2
 defaults write com.apple.dock wvous-bl-modifier -int 0
 
@@ -184,16 +205,13 @@ echo 'Hot Corners: Top right screen corner → Start screen saver'
 defaults write com.apple.dock wvous-tr-corner -int 5
 defaults write com.apple.dock wvous-tr-modifier -int 0
 
-echo 'Prevent Time Machine from prompting to use new hard drives as backup volume'
+echo 'Time Machine: Prevent Time Machine from prompting to use new hard drives as backup volume'
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
-
-echo 'Faster key repeat rate'
-defaults write NSGlobalDomain KeyRepeat -int 0
 
 echo 'Mission Control: Speed up animations'
 defaults write com.apple.dock expose-animation-duration -float 0.1
 
-echo 'Don’t automatically rearrange Spaces based on most recent use'
+echo 'Spaces: Don’t automatically rearrange Spaces based on most recent use'
 defaults write com.apple.dock mru-spaces -bool false
 
 echo 'Kill affected applications'
