@@ -87,6 +87,9 @@ elif is_os "osx"; then
   export PATH=/usr/local/bin:$PATH
   export PATH=/usr/local/sbin:$PATH
 
+  # Path for pkg-config
+  export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+
   # Path for node
   export NODE_PATH=/usr/local/lib/node_modules
 
