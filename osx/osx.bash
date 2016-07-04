@@ -60,10 +60,12 @@ brew_install mongodb
 brew_install coreutils  # gnu version of utility (used for dircolors)
 brew_install python
 brew_install python3
-brew_install ack
-brew_install xz
-brew_install p7zip
 brew_install unrar
+brew_install p7zip
+brew_install xz
+brew_install ack
+brew_install cmake
+brew_install openssl
 brew_install tree
 brew_install nmap
 brew_install wget
