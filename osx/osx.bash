@@ -128,7 +128,8 @@ echo 'General; Remove accounts from login options'
 sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add shortname1 shortname2 shortname3
 
 echo 'General: Faster key repeat rate'
-defaults write NSGlobalDomain KeyRepeat -int 0
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
 echo 'Finder: Show hidden files'
 defaults write com.apple.Finder AppleShowAllFiles YES
