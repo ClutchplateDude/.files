@@ -90,6 +90,9 @@ elif is_os "osx"; then
   # Path for pkg-config
   export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
+  # Path for qt
+  export CMAKE_MODULE_PATH=/Users/em/Qt5.7.0/5.7/clang_64/
+
   # Path for node
   export NODE_PATH=/usr/local/lib/node_modules
 
@@ -258,6 +261,9 @@ if is_os "osx"; then
   function runo { run_color orange dark "$@" }
   function runc { run_color cyan dark "$@" }
 
+  # Random
+  function random { openssl rand -hex 8 | pbcopy; echo "Copy successful."}
+
   # Beep
   function beep { echo -n ''; }
 
@@ -367,6 +373,8 @@ alias cl='clear; ls -lhG $@'
 alias cla='clear; ls -lhAG $@'
 
 alias s='cd ..'
+alias de='cd ~/dev'
+alias ma='cd ~/dev/mason'
 
 alias diff='run git difftool --extcmd=/usr/bin/opendiff $@'
 alias diffs='run git difftool --staged --extcmd=/usr/bin/opendiff $@'
@@ -482,12 +490,20 @@ alias git_show_file_stats_between_branches='git '
 #-----------------------------------------------------------------------------
 alias pt='py.test $@'
 
-# Node aliases
+# Node and NPM aliases
 #-----------------------------------------------------------------------------
 
 alias no='runp node-dev src/app.js'
 alias np='sub package.json'
 
+alias nu='npm update'
+alias nbuild='npm run build'
+alias nb='npm run build'
+alias nrun='npm run run'
+alias nr='npm run run'
+alias ncr='npm run clean && npm run build && npm run run'
+alias ncb='npm run clean && npm run build'
+alias nt='npm test'
 alias fs='runl foreman start -p 3000 $@'
 alias fl='run cat Procfile'
 alias fl='sub Procfile'

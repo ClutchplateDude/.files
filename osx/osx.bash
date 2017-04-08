@@ -127,9 +127,14 @@ defaults write -g NSNavPanelExpandedStateForSaveMode -bool YES
 echo 'General; Remove accounts from login options'
 sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add shortname1 shortname2 shortname3
 
-echo 'General: Faster key repeat rate'
+echo 'General: Faster keyboard repeat rate'
 defaults write NSGlobalDomain KeyRepeat -int 2
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+echo 'General: Faster keyboard initial delay'
+defaults write NSGlobalDomain InitialKeyRepeat -int 20
+
+echo 'General: Remove international press and hold shortcut'
+defaults write -g ApplePressAndHoldEnabled -bool false
 
 echo 'Finder: Show hidden files'
 defaults write com.apple.Finder AppleShowAllFiles YES
