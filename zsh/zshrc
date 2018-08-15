@@ -125,10 +125,16 @@ elif is_os "osx"; then
   # Paths for EC2
 
   export JAVA_HOME="$(/usr/libexec/java_home)"
-  export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ssh/ec2/pk-*.pem | /usr/bin/head -1)"
-  export EC2_CERT="$(/bin/ls "$HOME"/.ssh/ec2/cert-*.pem | /usr/bin/head -1)"
-  export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
-  export EC2_AMITOOL_HOME="/usr/local/Library/LinkedKegs/ec2-ami-tools/jars"
+  #export EC2_PRIVATE_KEY="$(/bin/ls '$HOME'/.ssh/ec2/pk-*.pem | /usr/bin/head -1)"
+  #export EC2_CERT="$(/bin/ls "$HOME"/.ssh/ec2/cert-*.pem | /usr/bin/head -1)"
+  #export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
+  #export EC2_AMITOOL_HOME="/usr/local/Library/LinkedKegs/ec2-ami-tools/jars"
+
+  # Fastlane
+  export PATH="$HOME/.fastlane/bin:$PATH"
+
+  # Android Studio
+  export PATH="${HOME}/Library/Android/sdk/tools:${HOME}/Library/Android/sdk/platform-tools:${PATH}"
 
 # Bind for Linux
 elif is_os "linux"; then
@@ -373,6 +379,9 @@ alias cl='clear; ls -lhG $@'
 alias cla='clear; ls -lhAG $@'
 
 alias s='cd ..'
+alias utc='date -u "+UTC    %Y-%m-%d %H:%M:%S    %Y-%m-%d %r"'
+alias pst='date "+PST    %Y-%m-%d %H:%M:%S    %Y-%m-%d %r"'
+alias now='utc && pst'
 alias de='cd ~/dev'
 alias ma='cd ~/dev/mason'
 
@@ -394,36 +403,45 @@ alias psgi='ps aux | grep -i $@'  # Case insensitive search
 # Git aliases
 #-----------------------------------------------------------------------------
 
+alias git='noglob git'
+
 alias m='git checkout master'     # Change to master branch\
 alias b='git checkout -'          # Toggle to last branch
 
-alias g='git $@'
-alias cdg='run git checkout $@'
+alias gc='git checkout $@'
+alias cdg='git checkout $@'
 
 # Git core information
 
-alias gb='run git branch'
+alias gb='git branch'
+
 # alias_echo 'gs' 'git status'
-alias gs='run git status'
+alias gs='git status'
 alias ts='run tig status'
 alias tl='run tig'
-function gl {
-  comment "git lg | head -n ${1:-20}"
-  git lg | head -n ${1:-20}
-}
 
-alias glm='git lg | grep Evan'
+alias gl="git --no-pager log -n 10 --graph --pretty=format:'%C(cyan)%h%C(green) %an %C(yellow)%cr%C(reset): %s%C(reset)%C(magenta)%d%Creset' --abbrev-commit --date=relative"
+
+alias gh="gl"
+
+alias gll="git --no-pager log -n 30 --graph --pretty=format:'%C(cyan)%h%C(green) %an %C(yellow)%cr%C(reset): %s%C(reset)%C(magenta)%d%Creset' --abbrev-commit --date=relative"
+
+alias gla="git lg"
+
+alias glm="git --no-pager log -n 40 --graph --pretty=format:'%C(cyan)%h%C(green) %an %C(yellow)%cr%C(reset): %s%C(reset)%C(magenta)%d%Creset' --abbrev-commit --date=relative | grep 'Evan Moran'"
 
 alias gg='echo -e "\n--------------------------------- Git Branch -----------------------------------\n";git branch;echo -e "\n--------------------------------- Git Status -----------------------------------\n";git status;echo -e "\n--------------------------------- Git Log --------------------------------------\n";git lg | head -n 12'
 
 alias ggm='echo -e "\n--------------------------------- Git Branch -----------------------------------\n";git branch;echo -e "\n--------------------------------- Git Status -----------------------------------\n";git status;echo -e "\n--------------------------------- Git Log ------------------------------------- \n";git lg | grep Evan | head -n 12 '
 
-alias gh='run git lg | head -n 12'
-
 alias gd='run git diff'
 alias gds='run git diff --staged'
 alias gdc='run git diff --cached'
 alias gdt='git symbolic-ref -q HEAD | xargs git for-each-ref --format="%(upstream:short)" | xargs -o git diff'
+
+alias gcp='git cherry-pick $@'
+alias gcpa='git cherry-pick --abort $@'
+alias gcpc='git cherry-pick --continue $@'
 
 # Git workflow
 
@@ -434,33 +452,43 @@ alias ga='run git add'
 alias gap='run git add -p'
 
 alias gf='run git fetch'
-alias gp='run git pull'
+alias gfa='git fetch --all $@'
+alias gfap='git fetch --all --prune $@'
+alias gfo='git fetch origin $@'
+
 alias gpr='run git pull --rebase'
 alias gprs='run git pull --rebase && run git submodule update --init --recursive'
 
 alias gy='run git yank'
 
-alias gc='run git commit'
 alias gca='run git commit --amend $@'
+alias gcp='run git commit -p $@'
+
 alias gcm='run git commit -m "$@"'
 
 alias gr='run git remote $@'
 alias grv='run git remote -v $@'
 alias gra='run git remote add $@'
 
-alias gch='run git checkout'
-alias gchp='run git checkout -p'
-
 alias gpush='run git stash'
 alias gpop='run git stash pop'
 
+alias grt='git_rebase_top_commits'
 
-alias grm='run git rebase master'
-alias grom='run git rebase origin/master'
-alias grim='run git rebase -i origin/master'
-alias gromf='gf && grom'
-alias gros='run git rebase origin/staging'
-alias gris='run git rebase -i origin/staging'
+alias git_rebase_from_master='run git rebase master'
+alias grm='run git fetch; run git rebase master'
+
+alias git_rebase_from_origin_master='run git fetch; run git rebase origin/master'
+alias grom='git_rebase_from_origin_master'
+
+alias git_rebase_interactive_from_origin_master='run git fetch; run git rebase -i origin/master'
+alias grim='git_rebase_interactive_from_origin_master'
+
+alias git_rebase_from_origin_staging='run git fetch; run git rebase origin/staging'
+alias gros='git_rebase_from_origin_staging'
+
+alias git_rebase_interactive_from_origin_staging='run git fetch; run git rebase -i origin/staging'
+alias gris='git_rebase_interactive_from_origin_staging'
 
 alias gmt='run git mergetool'
 
@@ -477,12 +505,14 @@ alias git_reset_head='run git reset -p HEAD'
 alias git_deleted='run git ls-files -d'
 alias git_restore_deleted='run git ls-files -d | xargs git checkout --'
 alias git_undo_cherrypick='run git reset --merge ORIG_HEAD'
+alias git_undo_last_commit='run git reset --soft HEAD~1'
+alias git_undo_commit_hash='run git reset --soft $@'
 alias git_remember_merge_changes='run git rerere'
-alias git_rebase_top_commit='run git rebase -i HEAD~'
-alias git_rebase_top_4_commits='run git rebase -i HEAD~4'
+alias git_rebase_top_commits='run git rebase -i HEAD~5'
 alias git_list_remote_branches='run git br -r'
 alias git_delete_remote_branch='echo "git push <remotename> --delete <branchname>"'
 alias git_show_file_stats_between_branches='git '
+alias git_pull_rebase_from_origin_master='run git fetch; run git rebase origin/master'
 # Visual diffs in OSX using built in opendiff
 
 
@@ -601,6 +631,27 @@ alias digs='dig $@ +nostats +nocomments +nocmd'
 #-----------------------------------------------------------------------------
 alias e='elixir $@'
 
+# Niantic aliases
+#-----------------------------------------------------------------------------
+
+alias n='run cd ~/n2-holoholo/client $@'
+alias nh='run cd ~/n2-holoholo $@'
+alias nhc='run cd ~/n2-holoholo/client $@'
+alias nhs='run cd ~/n2-holoholo/server $@'
+
+alias niantic_build_client_ios='run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildIosCi -s'
+alias nbci='run niantic_build_client_ios'
+
+alias niantic_open_client_ios='run open release_process/build/ios/continuousintegration/xcode/Unity-iPhone.xcodeproj'
+alias noci='run niantic_open_client_ios'
+
+alias niantic_build_client_android='run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildAndroidCi -PbuildProperties=release_process/ci.properties -s'
+alias nbca='run niantic_build_client_android'
+
+alias npu='run niantic_prepare_unity';
+alias niantic_prepare_unity='run cd ~/n2-holoholo/client; run ./gradlew clean; run ./gradlew prepareUnity'
+alias prep="run niantic_prepare_unity"
+
 # Unsorted
 #-----------------------------------------------------------------------------
 
@@ -641,8 +692,8 @@ if is_location "home"; then
   alias smd='cd ~/framd/lib/smite/demo/$@'
   alias smt='cd ~/framd/lib/smite/test/$@'
   alias smc='cd ~/framd/lib/smite/lib/smite-client/$@'
-  alias act='cd ~/framd/lib/act/$@'
-  alias actw='(cd ~/framd/lib/act; runy cake build:js:watch)'
+  # alias act='cd ~/framd/lib/act/$@'
+  # alias actw='(cd ~/framd/lib/act; runy cake build:js:watch)'
   alias frd='cd ~/framd/db/$@'
   alias frt='cd ~/framd/web/test/$@'
   alias frs='cd ~/framd/web/src/$@'
