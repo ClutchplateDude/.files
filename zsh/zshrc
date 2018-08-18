@@ -91,7 +91,9 @@ elif is_os "osx"; then
   export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
   # Path for qt
-  export CMAKE_MODULE_PATH=/Users/em/Qt5.7.0/5.7/clang_64/
+  export CMAKE_MODULE_PATH=~/Qt5.7.0/5.7/clang_64/
+  #export QTBIN=~/Qt5.7.0/5.7/clang_64/bin
+  #export PATH=$QTBIN:$PATH
 
   # Path for node
   export NODE_PATH=/usr/local/lib/node_modules
@@ -106,7 +108,6 @@ elif is_os "osx"; then
   export PATH=/usr/local/Cellar/git/1.7.8/bin:$PATH
   export PATH=/usr/local/share/python:$PATH
   export PATH=~/bin:$PATH
-  export PATH=~/bin/osx:$PATH
 
   export EDITOR="sub -w"
 
@@ -357,6 +358,7 @@ if is_os 'osx'; then
   alias ls='run gls --color -F $@'      # Compact view
   alias ll='run gls --color -AF $@'     # Compact view, showing hidden
   alias la='run gls --color -lhAF $@'   # Full view, showing hidden
+  alias lt='run gls --color -AF $@ | grep test'   # Compact view, filtering test
   alias l.='gls --color -adF .*'        # Show just .files
   alias ls0='ls -Gp'
   alias ls1='ls -GF'
@@ -399,6 +401,16 @@ function ssh {
 alias psls='ps aux $@'             # List running processes
 alias psg='ps aux | grep $@'      # Search running processes
 alias psgi='ps aux | grep -i $@'  # Case insensitive search
+
+
+# Bazel aliases
+#-----------------------------------------------------------------------------
+alias bb='bazel build $@'
+alias bt='bazel test --test_output=all $@'
+alias btq='bazel test $@'
+alias bc='bazel clean $@'
+alias bce='bazel clean --expunge'
+alias br='bazel run $@'
 
 # Git aliases
 #-----------------------------------------------------------------------------
