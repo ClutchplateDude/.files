@@ -137,6 +137,9 @@ elif is_os "osx"; then
   # Android Studio
   export PATH="${HOME}/Library/Android/sdk/tools:${HOME}/Library/Android/sdk/platform-tools:${PATH}"
 
+  # Hunter
+  export HUNTER_ROOT="${HOME}/.hunter_root"
+
 # Bind for Linux
 elif is_os "linux"; then
   echo "Linux"
