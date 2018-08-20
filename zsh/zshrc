@@ -45,7 +45,7 @@ function is_os {
     return 0
   elif [ $1 = "linux" ] && [ "$OS" = "Linux" ]; then
       return 0
-  elif [ $1 = "osx" ] && [ "$OS" = "Darwin" ]; then
+  elif [ $1 = "mac" ] && [ "$OS" = "Darwin" ]; then
     return 0
   fi
   return 1
@@ -64,16 +64,16 @@ if [ ! -f ~/.location ]; then
   echo "home" > ~/.location
 fi
 
-# Path and Location Detection
+# Path
 #-----------------------------------------------------------------------------
 
 # Print operating system
 echo # Newline
-echo -n "  OS:       "
+echo -n "  os:       "
 
 # Bind for Windows
 if is_os "windows"; then
-  echo "Windows"
+  echo "windows"
   export USER=$USERNAME                 # OSX already has this
   export PATH=$PATH
   export PATH=~/bin:$PATH
@@ -81,8 +81,8 @@ if is_os "windows"; then
   export EDITOR="emacs"
 
 # Bind for OSX
-elif is_os "osx"; then
-  echo "OSX"
+elif is_os "mac"; then
+  echo "mac"
   # Brew requires /usr/local/bin and /usr/local/sbin to be ahead of /usr/bin
   export PATH=/usr/local/bin:$PATH
   export PATH=/usr/local/sbin:$PATH
@@ -142,7 +142,7 @@ elif is_os "osx"; then
 
 # Bind for Linux
 elif is_os "linux"; then
-  echo "Linux"
+  echo "linux"
 
   export PATH="${HOME}/bin:${HOME}/.local/bin:$PATH"
 
@@ -153,16 +153,19 @@ elif is_os "linux"; then
 fi
 
 # Bind for osx and linux
-if is_os "osx" || is_os "linux"; then
+if is_os "mac" || is_os "linux"; then
   # Path for ansible
   export ANSIBLE_HOSTS="${HOME}/.ansible_hosts"
   export ANSIBLE_TRANSPORT="ssh"
 fi
 
-echo "  User:     $USER"
+echo "  user:     $USER"
 
 # Prompt
 #-----------------------------------------------------------------------------
+
+# Disable virtualenv prompt
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 function git_branch {
    (echo -n "*"; git branch 2> /dev/null | sed -e '/^[^*]/d') | sed -e 's/\*\* \(.*\)/*\1/'
@@ -237,7 +240,7 @@ alias print_colors="define_colors; echo -e \"${COLOR_NONE}COLOR_NONE\";echo -e \
 # Aliases
 #-----------------------------------------------------------------------------
 
-if is_os "osx"; then
+if is_os "mac"; then
 
   function terminal_theme {
     TERMINAL_THEME=$1; if [ -z "$TERMINAL_THEME" ]; then TERMINAL_THEME="SolarizedDark"; fi
@@ -317,7 +320,7 @@ fi
 # One-time Aliases
 #-----------------------------------------------------------------------------
 
-if is_os "osx"; then
+if is_os "mac"; then
   function onetime_setup {
     # Ensure dropbox is /d
     run ln -s $HOME/Dropbox/ $HOME/d
@@ -339,7 +342,7 @@ fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
-alias p="${EDITOR} ~/.files/osx/osx.bash ~/.files/links.bash ~/.files/git/gitconfig ~/.files/zsh/zshrc"
+alias open_profile="${EDITOR} ~/.files/osx/osx.bash ~/.files/links.bash ~/.files/git/gitconfig ~/.files/zsh/zshrc"
 
 alias plan="${EDITOR} ~/.plan"
 alias notes="${EDITOR} ~/.notes"
@@ -355,7 +358,7 @@ export LS_OPTIONS='--color=auto'
 
 [ "$TERM" = "xterm" ] && TERM="xterm-256color"
 
-if is_os 'osx'; then
+if is_os 'mac'; then
   eval `gdircolors ~/.dircolors`
   # TODO: Detect if gls exists before binding these
   alias ls='run gls --color -F $@'      # Compact view
@@ -646,26 +649,6 @@ alias digs='dig $@ +nostats +nocomments +nocmd'
 #-----------------------------------------------------------------------------
 alias e='elixir $@'
 
-# Niantic aliases
-#-----------------------------------------------------------------------------
-
-alias n='run cd ~/n2-holoholo/client $@'
-alias nh='run cd ~/n2-holoholo $@'
-alias nhc='run cd ~/n2-holoholo/client $@'
-alias nhs='run cd ~/n2-holoholo/server $@'
-
-alias niantic_build_client_ios='run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildIosCi -s'
-alias nbci='run niantic_build_client_ios'
-
-alias niantic_open_client_ios='run open release_process/build/ios/continuousintegration/xcode/Unity-iPhone.xcodeproj'
-alias noci='run niantic_open_client_ios'
-
-alias niantic_build_client_android='run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildAndroidCi -PbuildProperties=release_process/ci.properties -s'
-alias nbca='run niantic_build_client_android'
-
-alias npu='run niantic_prepare_unity';
-alias niantic_prepare_unity='run cd ~/n2-holoholo/client; run ./gradlew clean; run ./gradlew prepareUnity'
-alias prep="run niantic_prepare_unity"
 
 # Unsorted
 #-----------------------------------------------------------------------------
@@ -673,21 +656,18 @@ alias prep="run niantic_prepare_unity"
 alias pg='run ps axw | grep -i'
 alias plg='run port list | grep -i'
 
-# Location aliases
+# Context
 #-----------------------------------------------------------------------------
 # Edit ~/.location to configure
 
-echo -n "  Aliases: "
-
-# Home Aliases
-#-----------------------------------------------------------------------------
+echo -n "  context: "
 
 function pidOf {
   ps aux | grep "$1" | grep -v grep | tail -n 1 | awk '{ print $2; }'
 }
 
 if is_location "home"; then
-  echo -n " @Home"
+  echo -n " @home"
 
   # Drives
   alias d='cd ~/d/ $@'
@@ -719,14 +699,37 @@ if is_location "home"; then
 # Work Aliases
 #-----------------------------------------------------------------------------
 
-elif is_location "work"; then
-  echo -n " @Work"
+elif is_location "niantic"; then
+  echo -n " niantic"
+
+  # Niantic aliases
+  #-----------------------------------------------------------------------------
+  alias n='run cd ~/n2-holoholo/client $@'
+  alias nh='run cd ~/n2-holoholo $@'
+  alias nhc='run cd ~/n2-holoholo/client $@'
+  alias nhs='run cd ~/n2-holoholo/server $@'
+
+  alias niantic_build_client_ios='run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildIosCi -s'
+  alias nbci='run niantic_build_client_ios'
+
+  alias niantic_open_client_ios='run open release_process/build/ios/continuousintegration/xcode/Unity-iPhone.xcodeproj'
+  alias noci='run niantic_open_client_ios'
+
+  alias niantic_build_client_android='run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildAndroidCi -PbuildProperties=release_process/ci.properties -s'
+  alias nbca='run niantic_build_client_android'
+
+  alias npu='run niantic_prepare_unity';
+  alias niantic_prepare_unity='run cd ~/n2-holoholo/client; run ./gradlew clean; run ./gradlew prepareUnity'
+  alias prep="run niantic_prepare_unity"
+
+  # Activiate venv
+  source ~/venv/niantic/bin/activate
 
 # Server Aliases
 #-----------------------------------------------------------------------------
 
 elif is_location "server"; then
-  echo -n " @Server"
+  echo -n " @server"
 
 else
   echo -n " @Unknown (no aliases bound)"

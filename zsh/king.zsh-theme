@@ -9,6 +9,10 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
 
 PROMPT_TIME="%F{green}%D{%L:%M} %F{yellow}%D{%p}%f"
 
+function virtualenv_info {
+    [ $VIRTUAL_ENV ] && echo `basename $VIRTUAL_ENV`
+}
+
 # Theme with full path names and hostname
 # Handy if you work on different servers all the time;
 
@@ -29,6 +33,10 @@ zstyle ':vcs_info:*' unstagedstr '%F{red}'
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
 zstyle ':vcs_info:*' enable git svn
+function virtualenv_info {
+ [ $VIRTUAL_ENV ] && echo '['`basename $VIRTUAL_ENV`']'
+}
+
 theme_precmd () {
 
     PROMPT_NAME='%{$fg[cyan]%}%n%{$reset_color%}@%{$fg[cyan]%}%m FOOOO'
@@ -209,7 +217,7 @@ prompt_timer_end()
 
 # setopt prompt_subst
 # # PROMPT='%B%F{magenta}%c%B%F{green}${vcs_info_msg_0_}%B%F{magenta} %{$reset_color%}%% '
-PROMPT='%{$fg[cyan]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[green]%}${PWD/#$HOME/~}%{$reset_color%}${vcs_info_msg_0_}%{$reset_color%} %(!.♔.♙)  %{$reset_color%}'
+PROMPT='%{$fg[cyan]%}$(virtualenv_info) $fg[cyan]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[green]%}${PWD/#$HOME/~}%{$reset_color%}${vcs_info_msg_0_}%{$reset_color%} %(!.♔.♙)  %{$reset_color%}'
 
 
 # white_time_left_prompt
