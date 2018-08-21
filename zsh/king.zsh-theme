@@ -216,9 +216,13 @@ prompt_timer_end()
 # trap prompt_timer_begin DEBUG
 
 # setopt prompt_subst
-# # PROMPT='%B%F{magenta}%c%B%F{green}${vcs_info_msg_0_}%B%F{magenta} %{$reset_color%}%% '
-PROMPT='%{$fg[cyan]%}$(virtualenv_info) $fg[cyan]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[green]%}${PWD/#$HOME/~}%{$reset_color%}${vcs_info_msg_0_}%{$reset_color%} %(!.♔.♙)  %{$reset_color%}'
 
+# Prompt with virtual env included
+# PROMPT='%{$fg[cyan]%}$(virtualenv_info) $fg[cyan]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[green]%}${PWD/#$HOME/~}%{$reset_color%}${vcs_info_msg_0_}%{$reset_color%} %(!.♔.♙)  %{$reset_color%}'
+
+# PROMPT='%{$fg[cyan]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[green]%}${PWD/#$HOME/~}%{$reset_color%}${vcs_info_msg_0_}%{$reset_color%} %(!.♔.♙)  %{$reset_color%}'
+
+PROMPT='%F{cyan}%n%f@%F{cyan}%m%F{cyan}$(virtualenv_info) %f%f%F{green}${PWD/#$HOME/~}%f${vcs_info_msg_0_}%(!. ♔. ♙) '
 
 # white_time_left_prompt
 autoload -U add-zsh-hook
