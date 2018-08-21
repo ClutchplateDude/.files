@@ -27,6 +27,7 @@ if is_os "osx" || is_os "linux"; then
   run ln -s $HOME/.files/git/gitconfig $HOME/.gitconfig
   run ln -s $HOME/.files/bash/bash_profile $HOME/.bash_profile
   run ln -s $HOME/.files/zsh/zshrc $HOME/.zshrc
+  run ln -s $HOME/.files/zsh/zshenv $HOME/.zshenv
   run ln -s $HOME/.files/lldb/lldbinit $HOME/.lldbinit
   run ln -s $HOME/.files/ackrc $HOME/.ackrc
   run ln -s $HOME/.files/dircolors/dircolors $HOME/.dircolors
