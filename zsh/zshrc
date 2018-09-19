@@ -721,20 +721,23 @@ elif is_location "niantic"; then
   alias nhc='run cd ~/n2-holoholo/client $@'
   alias nhs='run cd ~/n2-holoholo/server $@'
 
-  alias -g niantic_build_ios='run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildIosCi -s'
+  alias niantic_build_ios='run killall Unity; run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildIosCi -s'
   alias nbi='niantic_build_ios'
 
-  alias -g niantic_open_ios='run open release_process/build/ios/continuousintegration/xcode/Unity-iPhone.xcodeproj'
+  alias niantic_open_ios='run open release_process/build/ios/continuousintegration/xcode/Unity-iPhone.xcodeproj'
   alias noi='niantic_open_ios'
 
-  alias -g niantic_open_build_ios='niantic_build_ios && niantic_open_ios'
+  alias niantic_open_build_ios='niantic_build_ios && niantic_open_ios'
   alias nobi='niantic_open_build_ios'
 
-  alias -g niantic_build_android='run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildAndroidCi -PbuildProperties=release_process/ci.properties -s'
+  alias niantic_build_android='run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildAndroidCi -PbuildProperties=release_process/ci.properties -s'
   alias nba='niantic_build_android'
 
-  alias -g niantic_prepare_unity='run cd ~/n2-holoholo/client; run ./gradlew clean; run ./gradlew prepareUnit'
+  alias niantic_prepare_unity='run killall Unity; run cd ~/n2-holoholo/client; run ./gradlew clean; run ./gradlew prepareUnit'
   alias npu='niantic_prepare_unity';
+
+  alias ku='run killall Unity'
+  alias ru='/Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath ~/n2-holoholo/client/UnityProject'
 
   # Activiate venv
   source ~/venv/niantic/bin/activate
