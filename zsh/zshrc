@@ -92,9 +92,7 @@ elif is_os "mac"; then
   export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
   # Path for qt
-  export CMAKE_MODULE_PATH=~/Qt5.7.0/5.7/clang_64/
-  #export QTBIN=~/Qt5.7.0/5.7/clang_64/bin
-  #export PATH=$QTBIN:$PATH
+  export CMAKE_MODULE_PATH=~/Qt5.11.1/5.11.1/clang_64/
 
   # Path for node
   export NODE_PATH=/usr/local/lib/node_modules
