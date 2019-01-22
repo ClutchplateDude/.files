@@ -31,6 +31,9 @@ if is_os "osx" || is_os "linux"; then
   run ln -s $HOME/.files/lldb/lldbinit $HOME/.lldbinit
   run ln -s $HOME/.files/ackrc $HOME/.ackrc
   run ln -s $HOME/.files/dircolors/dircolors $HOME/.dircolors
+  rm $HOME/.config/karabiner/karabiner.json
+  # Must be a hard link for karabiner to work
+  run ln $HOME/.files/osx/karabiner/karabiner.json $HOME/.config/karabiner/karabiner.json
   run ln -s $HOME/d/.plan $HOME/.plan
   run ln -s $HOME/d/.notes $HOME/.notes
   run ln -s $HOME/d/proj $HOME/proj

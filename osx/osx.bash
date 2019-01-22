@@ -32,7 +32,7 @@ function npm_install {
 ##############################################################
 # Install links
 ##############################################################
-run "${HOME}/.files/.links"
+run "${HOME}/.files/osx/.links"
 
 # Update submodules
 (cd "${HOME}/.files"; git sup)

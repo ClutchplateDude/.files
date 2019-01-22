@@ -133,8 +133,12 @@ elif is_os "mac"; then
   # Fastlane
   export PATH="$HOME/.fastlane/bin:$PATH"
 
-  # Android Studio
+  # Android Studio (Niantic)
   export PATH="${HOME}/Library/Android/sdk/tools:${HOME}/Library/Android/sdk/platform-tools:${PATH}"
+
+  # NDK
+  export NDK_13_ROOT="~/projects/android-ndk-r13b"
+  export ANDROID_NDK_HOME=$NDK_13_ROOT
 
   # Hunter
   export HUNTER_ROOT="${HOME}/.hunter_root"
@@ -347,7 +351,7 @@ fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
-alias open_profile="${EDITOR} ~/.files/osx/osx.bash ~/.files/links.bash ~/.files/git/gitconfig ~/.files/zsh/zshrc"
+alias open_profile="${EDITOR} ~/.files/osx/osx.bash ~/.files/osx/links.bash ~/.files/git/gitconfig ~/.files/osx/karabiner/karabiner.json  ~/.files/zsh/zshrc"
 
 alias plan="${EDITOR} ~/.plan"
 alias notes="${EDITOR} ~/.notes"
@@ -417,7 +421,8 @@ function ssh {
 alias psls='ps aux $@'             # List running processes
 alias psg='ps aux | grep $@'      # Search running processes
 alias psgi='ps aux | grep -i $@'  # Case insensitive search
-
+alias findgrep='find . -type f | grep $@' # Find recursive with grep
+alias findgrepfull='find $PWD -type f | grep $@' # Find recursive with grep
 
 # Bazel aliases
 #-----------------------------------------------------------------------------
@@ -450,6 +455,8 @@ alias tl='run tig'
 
 alias gl="git --no-pager log -n 10 --graph --pretty=format:'%C(cyan)%h%C(green) %an %C(yellow)%cr%C(reset): %s%C(reset)%C(magenta)%d%Creset' --abbrev-commit --date=relative"
 
+alias gsh="git_show_last_commit"
+
 alias gh="gl"
 
 alias gll="git --no-pager log -n 30 --graph --pretty=format:'%C(cyan)%h%C(green) %an %C(yellow)%cr%C(reset): %s%C(reset)%C(magenta)%d%Creset' --abbrev-commit --date=relative"
@@ -472,7 +479,6 @@ alias gcpa='git cherry-pick --abort $@'
 alias gcpc='git cherry-pick --continue $@'
 
 # Git workflow
-
 
 # Git core manipulation
 
@@ -531,6 +537,7 @@ alias grimace='run git add . && git commit -m "f" && git rebase -i master'
 alias git_monthly='git log --author evanmoran --format="%ci" | cut -f1-2 -d- | uniq -c | tail -r'
 alias git_reset_head='run git reset -p HEAD'
 alias git_deleted='run git ls-files -d'
+alias git_show_last_commit='run git show HEAD'
 alias git_restore_deleted='run git ls-files -d | xargs git checkout --'
 alias git_undo_cherrypick='run git reset --merge ORIG_HEAD'
 alias git_undo_last_commit='run git reset --soft HEAD~1'
@@ -714,12 +721,12 @@ elif is_location "niantic"; then
 
   # Niantic aliases
   #-----------------------------------------------------------------------------
-  alias n='run cd ~/n2-holoholo/client $@'
-  alias nh='run cd ~/n2-holoholo $@'
-  alias nhc='run cd ~/n2-holoholo/client $@'
-  alias nhs='run cd ~/n2-holoholo/server $@'
+  alias n='run cd ~/projects/pgo-client/client $@'
+  alias np='run cd ~/projects/holoholo-shared-protos $@'
+  alias nc='run cd ~/projects/pgo-client/client $@'
+  alias ns='run cd ~/projects/pgo-server/server $@'
 
-  alias niantic_build_ios='run killall Unity; run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildIosCi -s'
+  alias niantic_build_ios='run killall Unity; run cd ~/projects/pgo-client/client; run ./gradlew -p release_process buildIosCi -s'
   alias nbi='niantic_build_ios'
 
   alias niantic_open_ios='run open release_process/build/ios/continuousintegration/xcode/Unity-iPhone.xcodeproj'
@@ -728,14 +735,16 @@ elif is_location "niantic"; then
   alias niantic_open_build_ios='niantic_build_ios && niantic_open_ios'
   alias nobi='niantic_open_build_ios'
 
-  alias niantic_build_android='run cd ~/n2-holoholo/client; run ./gradlew -p release_process buildAndroidCi -PbuildProperties=release_process/ci.properties -s'
+  alias niantic_build_android='run cd ~/projects/pgo-client/client; run ./gradlew -p release_process buildAndroidCi -PbuildProperties=release_process/ci.properties -s'
   alias nba='niantic_build_android'
 
-  alias niantic_prepare_unity='run killall Unity; run cd ~/n2-holoholo/client; run ./gradlew clean; run ./gradlew prepareUnit'
+  alias niantic_prepare_unity='run killall Unity; run cd ~/projects/pgo-client/client; run ./gradlew clean; run ./gradlew prepareUnity'
   alias npu='niantic_prepare_unity';
 
+  alias niantic_publish_protos_to_maven_cache='run cd ~/holoholo_shared_protos; run ./gradlew publishToMavenLocal'
+
   alias ku='run killall Unity'
-  alias ru='/Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath ~/n2-holoholo/client/UnityProject'
+  alias ru='/Applications/Unity/Unity.app/Contents/MacOS/Unity -projectPath ~/projects/pgo-client/client/UnityProject'
 
   # Activiate venv
   source ~/venv/niantic/bin/activate
